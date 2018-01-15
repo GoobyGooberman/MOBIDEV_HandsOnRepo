@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import com.neildg.mobidev_handsonrepo.R;
 
+import org.w3c.dom.Text;
+
 public class LifecycleActivity extends AppCompatActivity {
     private final static String TAG = "LifecycleActivity";
 
@@ -46,6 +48,7 @@ public class LifecycleActivity extends AppCompatActivity {
         this.onDestroyNumView = (TextView) this.findViewById(R.id.view_ondestroy_num);
 
         this.logLayoutView = (LinearLayout) this.findViewById(R.id.log_layout_view);
+        this.logLayoutView.removeAllViews();
     }
 
     /*
