@@ -11,6 +11,10 @@ import com.neildg.mobidev_handsonrepo.R;
 
 import org.w3c.dom.Text;
 
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class LifecycleActivity extends AppCompatActivity {
     private final static String TAG = "LifecycleActivity";
 
@@ -30,6 +34,13 @@ public class LifecycleActivity extends AppCompatActivity {
     private TextView onStopNumView;
     private TextView onDestroyNumView;
 
+    private TextView onCreateStampView;
+    private TextView onStartStampView;
+    private TextView onResumeStampView;
+    private TextView onPauseStampView;
+    private TextView onStopStampView;
+    private TextView onDestroyStampView;
+
     private LinearLayout logLayoutView;
 
     private int onCreateNum = 0;
@@ -48,6 +59,15 @@ public class LifecycleActivity extends AppCompatActivity {
         this.setupUI();
         this.restoreState();
         this.updateValues();
+
+        this.onCreateStampView.setText(this.getTimeStamp());
+    }
+
+    private String getTimeStamp() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm:ss a");
+        String format = simpleDateFormat.format(new Date());
+
+        return format;
     }
 
     private void setupUI() {
@@ -57,6 +77,13 @@ public class LifecycleActivity extends AppCompatActivity {
         this.onPauseNumView = (TextView) this.findViewById(R.id.view_pause_num);
         this.onStopNumView = (TextView) this.findViewById(R.id.view_onstop_num);
         this.onDestroyNumView = (TextView) this.findViewById(R.id.view_ondestroy_num);
+
+        this.onCreateStampView = (TextView) this.findViewById(R.id.view_oncreate_stamp);
+        this.onStartStampView = (TextView) this.findViewById(R.id.view_onstart_stamp);
+        this.onResumeStampView = (TextView) this.findViewById(R.id.view_onresume_stamp);
+        this.onPauseStampView = (TextView) this.findViewById(R.id.view_onpause_stamp);
+        this.onStopStampView = (TextView) this.findViewById(R.id.view_onstop_stamp);
+        this.onDestroyStampView = (TextView) this.findViewById(R.id.view_ondestroy_stamp);
 
         this.logLayoutView = (LinearLayout) this.findViewById(R.id.log_layout_view);
         this.logLayoutView.removeAllViews();
@@ -72,6 +99,7 @@ public class LifecycleActivity extends AppCompatActivity {
         this.onPauseNumView.setText(Integer.toString(this.onPauseNum));
         this.onStopNumView.setText(Integer.toString(this.onStopNum));
         this.onDestroyNumView.setText(Integer.toString(this.onDestroyNum));
+
     }
 
     private void logMessage(String message) {
@@ -85,6 +113,7 @@ public class LifecycleActivity extends AppCompatActivity {
         super.onStart();
 
         this.onStartNum++;
+        this.onStartStampView.setText(this.getTimeStamp());
         this.updateValues();
 
         this.logMessage("Triggered onStart!");
@@ -95,6 +124,7 @@ public class LifecycleActivity extends AppCompatActivity {
         super.onResume();
 
         this.onResumeNum++;
+        this.onResumeStampView.setText(this.getTimeStamp());
         this.updateValues();
 
         this.logMessage("Triggered onResume!");
@@ -105,6 +135,7 @@ public class LifecycleActivity extends AppCompatActivity {
         super.onPause();
 
         this.onPauseNum++;
+        this.onPauseStampView.setText(this.getTimeStamp());
         this.updateValues();
 
         this.logMessage("Triggered onPause!");
@@ -115,6 +146,7 @@ public class LifecycleActivity extends AppCompatActivity {
         super.onStop();
 
         this.onStopNum++;
+        this.onStopStampView.setText(this.getTimeStamp());
         this.updateValues();
 
         this.logMessage("Triggered onStop!");
@@ -127,6 +159,7 @@ public class LifecycleActivity extends AppCompatActivity {
         super.onDestroy();
 
         this.onDestroyNum++;
+        this.onDestroyStampView.setText(this.getTimeStamp());
         this.updateValues();
 
         this.logMessage("Triggered onDestroy!");
