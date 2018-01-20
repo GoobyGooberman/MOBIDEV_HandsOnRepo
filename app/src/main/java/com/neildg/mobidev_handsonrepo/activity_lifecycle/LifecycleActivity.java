@@ -1,7 +1,9 @@
 package com.neildg.mobidev_handsonrepo.activity_lifecycle;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -12,6 +14,14 @@ import org.w3c.dom.Text;
 public class LifecycleActivity extends AppCompatActivity {
     private final static String TAG = "LifecycleActivity";
 
+    //keys for STATE SAVING
+    private final static String STATE_PREFS_FILE = "StatePrefsFile";
+    private final static String CREATE_NUM_KEY = "CREATE_NUM_KEY";
+    private final static String START_NUM_KEY = "START_NUM_KEY";
+    private final static String RESUME_NUM_KEY = "RESUME_NUM_KEY";
+    private final static String ON_PAUSE_NUM_KEY = "ON_PAUSE_NUM_KEY";
+    private final static String ON_STOP_NUM_KEY = "ON_STOP_NUM_KEY";
+    private final static String ON_DESTROY_NUM_KEY = "ON_DESTROY_NUM_KEY";
 
     private TextView onCreateNumView;
     private TextView onStartNumView;
@@ -36,6 +46,7 @@ public class LifecycleActivity extends AppCompatActivity {
 
         this.onCreateNum++;
         this.setupUI();
+        this.restoreState();
         this.updateValues();
     }
 
@@ -107,6 +118,8 @@ public class LifecycleActivity extends AppCompatActivity {
         this.updateValues();
 
         this.logMessage("Triggered onStop!");
+        this.saveState();
+
     }
 
     @Override
@@ -117,5 +130,33 @@ public class LifecycleActivity extends AppCompatActivity {
         this.updateValues();
 
         this.logMessage("Triggered onDestroy!");
+        this.saveState();
+    }
+
+    private void restoreState() {
+        SharedPreferences preferences = this.getSharedPreferences(STATE_PREFS_FILE, MODE_PRIVATE);
+        this.onCreateNum += preferences.getInt(CREATE_NUM_KEY, 0);
+        this.onStartNum += preferences.getInt(START_NUM_KEY, 0);
+        this.onResumeNum += preferences.getInt(RESUME_NUM_KEY, 0);
+        this.onPauseNum += preferences.getInt(ON_PAUSE_NUM_KEY, 0);
+        this.onStopNum += preferences.getInt(ON_STOP_NUM_KEY, 0);
+        this.onDestroyNum += preferences.getInt(ON_DESTROY_NUM_KEY, 0);
+
+        Log.d(TAG, "Updated values!! onCreate: " +this.onCreateNum);
+    }
+
+    private void saveState() {
+        SharedPreferences preferences = this.getSharedPreferences(STATE_PREFS_FILE, MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        editor.putInt(CREATE_NUM_KEY, this.onCreateNum);
+        editor.putInt(START_NUM_KEY, this.onStartNum);
+        editor.putInt(RESUME_NUM_KEY, this.onResumeNum);
+        editor.putInt(ON_PAUSE_NUM_KEY, this.onPauseNum);
+        editor.putInt(ON_STOP_NUM_KEY, this.onStopNum);
+        editor.putInt(ON_DESTROY_NUM_KEY, this.onDestroyNum);
+
+       editor.commit(); //IMPORTANT! SAVE CHANGES
+        Log.d(TAG, "Successfully saved state");
     }
 }
