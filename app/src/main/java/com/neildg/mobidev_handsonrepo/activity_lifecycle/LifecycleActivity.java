@@ -58,6 +58,7 @@ public class LifecycleActivity extends AppCompatActivity {
         this.onCreateNum++;
         this.setupUI();
         this.restoreState();
+        //this.restoreFromBundle(savedInstanceState);
         this.updateValues();
 
         this.onCreateStampView.setText(this.getTimeStamp());
@@ -165,6 +166,33 @@ public class LifecycleActivity extends AppCompatActivity {
         this.logMessage("Triggered onDestroy!");
         this.saveState();
     }
+
+    /*private void restoreFromBundle(Bundle savedInstanceState) {
+
+        if(savedInstanceState == null) {
+            return;
+        }
+
+        this.onCreateNum += savedInstanceState.getInt(CREATE_NUM_KEY, 0);
+        this.onStartNum += savedInstanceState.getInt(START_NUM_KEY, 0);
+        this.onResumeNum += savedInstanceState.getInt(RESUME_NUM_KEY, 0);
+        this.onPauseNum += savedInstanceState.getInt(ON_PAUSE_NUM_KEY, 0);
+        this.onStopNum += savedInstanceState.getInt(ON_STOP_NUM_KEY, 0);
+        this.onDestroyNum += savedInstanceState.getInt(ON_DESTROY_NUM_KEY, 0);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(CREATE_NUM_KEY, this.onCreateNum);
+        outState.putInt(START_NUM_KEY, this.onStartNum);
+        outState.putInt(RESUME_NUM_KEY, this.onResumeNum);
+        outState.putInt(ON_PAUSE_NUM_KEY, this.onPauseNum);
+        outState.putInt(ON_STOP_NUM_KEY, this.onStopNum);
+        outState.putInt(ON_DESTROY_NUM_KEY, this.onDestroyNum);
+
+        super.onSaveInstanceState(outState);
+    }*/
+
 
     private void restoreState() {
         SharedPreferences preferences = this.getSharedPreferences(STATE_PREFS_FILE, MODE_PRIVATE);
