@@ -1,11 +1,14 @@
 package com.neildg.mobidev_handsonrepo.activity_restaurant;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.neildg.mobidev_handsonrepo.R;
+
+import org.w3c.dom.Text;
 
 /** Holds reference to the restaurant_item_layout XML
  * Created by NeilDG on 1/27/2018.
@@ -16,7 +19,7 @@ public class RestaurantViewHolder extends RecyclerView.ViewHolder {
     private final static String TAG = "RestaurantViewHolder";
 
     private TextView restaurantNameText;
-    private EditText restaurantDescText;
+    private TextView restaurantDescText;
     private TextView weightText;
 
     public RestaurantViewHolder(View itemView) {
@@ -31,7 +34,7 @@ public class RestaurantViewHolder extends RecyclerView.ViewHolder {
         return this.restaurantNameText;
     }
 
-    public EditText getRestaurantDescText() {
+    public TextView getRestaurantDescText() {
         return this.restaurantDescText;
     }
 

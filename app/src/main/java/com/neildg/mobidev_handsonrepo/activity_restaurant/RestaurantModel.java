@@ -37,4 +37,8 @@ public class RestaurantModel {
     public int getWeight() {
         return this.weight;
     }
+
+    public String getWeightString() {
+        return Integer.toString(this.weight);
+    }
 }

@@ -35,7 +35,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantViewHolder
         RestaurantModel model = this.modelList.get(position);
         holder.getRestaurantNameText().setText(model.getName());
         holder.getRestaurantDescText().setText(model.getDescription());
-        holder.getWeightText().setText(model.getWeight());
+        holder.getWeightText().setText(model.getWeightString());
     }
 
     @Override
