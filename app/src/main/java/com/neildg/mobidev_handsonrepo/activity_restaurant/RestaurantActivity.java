@@ -2,6 +2,7 @@ package com.neildg.mobidev_handsonrepo.activity_restaurant;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.location.Address;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -91,8 +92,30 @@ public class RestaurantActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent addIntent = new Intent(RestaurantActivity.this, AddRestaurantActivity.class);
-                startActivity(addIntent);
+                //startActivity(addIntent);
+                startActivityForResult(addIntent, AddRestaurantActivity.ACTIVITY_CODE);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == AddRestaurantActivity.ACTIVITY_CODE) {
+            if(resultCode == AddRestaurantActivity.ADD_SUCCESS) {
+                //for demonstration purposes, result code is used to check if adding is successful. In this scenario,
+                //there is no chance for the add activity to fail.
+                String name = data.getStringExtra(AddRestaurantActivity.RESTAURANT_NAME_KEY);
+                String desc = data.getStringExtra(AddRestaurantActivity.RESTAURANT_DESC_KEY);
+                int weight = data.getIntExtra(AddRestaurantActivity.WEIGHT_KEY, 0);
+
+                RestaurantModel model = new RestaurantModel(name, desc, weight);
+                this.restaurantList.add(model);
+
+                //refresh the adapter
+                this.restaurantAdapter.notifyDataSetChanged();
+            }
+        }
     }
 }
