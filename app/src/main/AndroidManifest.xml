@@ -20,8 +20,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity_lifecycle.LifecycleActivity" />
-        <activity android:name=".activity_restaurant.RestaurantActivity"
-            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity_restaurant.RestaurantActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity_restaurant.AddRestaurantActivity"></activity>
     </application>
 
 </manifest>

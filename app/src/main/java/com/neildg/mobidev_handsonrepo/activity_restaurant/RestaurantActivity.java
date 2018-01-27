@@ -1,5 +1,6 @@
 package com.neildg.mobidev_handsonrepo.activity_restaurant;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -82,6 +83,15 @@ public class RestaurantActivity extends AppCompatActivity {
 
                 snackbar.show();
 
+            }
+        });
+
+        Button addBtn = this.findViewById(R.id.add_btn);
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent addIntent = new Intent(RestaurantActivity.this, AddRestaurantActivity.class);
+                startActivity(addIntent);
             }
         });
     }
