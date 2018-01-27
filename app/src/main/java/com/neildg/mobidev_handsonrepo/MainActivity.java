@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.neildg.mobidev_handsonrepo.activity_lifecycle.LifecycleActivity;
+import com.neildg.mobidev_handsonrepo.activity_restaurant.RestaurantActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -86,6 +87,11 @@ public class MainActivity extends AppCompatActivity
         if(id == R.id.nav_lifecycle_test) {
             Intent lifecycleIntent = new Intent(this, LifecycleActivity.class);
             this.startActivity(lifecycleIntent);
+        }
+
+        if(id == R.id.nav_restaurant_randomizer) {
+            Intent intent = new Intent(this, RestaurantActivity.class);
+            this.startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
