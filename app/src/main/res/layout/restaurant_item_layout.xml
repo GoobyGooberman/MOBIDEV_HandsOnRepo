@@ -62,14 +62,14 @@
             app:layout_constraintTop_toBottomOf="@+id/restaurant_desc_text"
             tools:layout_editor_absoluteX="100dp" />
 
-        <Button
+        <!--<Button
             android:id="@+id/delete_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Delete"
             app:layout_constraintTop_toBottomOf="@+id/restaurant_desc_text"
-            tools:layout_editor_absoluteX="100dp" />
+            tools:layout_editor_absoluteX="100dp" />-->
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
