@@ -33,6 +33,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantViewHolder
     @Override
     public void onBindViewHolder(RestaurantViewHolder holder, int position) {
         RestaurantModel model = this.modelList.get(position);
+        holder.setModelIndex(position);
         holder.getRestaurantNameText().setText(model.getName());
         holder.getRestaurantDescText().setText(model.getDescription());
         holder.getWeightText().setText(model.getWeightString());

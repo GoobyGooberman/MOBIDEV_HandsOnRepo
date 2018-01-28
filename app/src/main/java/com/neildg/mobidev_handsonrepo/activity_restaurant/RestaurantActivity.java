@@ -2,7 +2,6 @@ package com.neildg.mobidev_handsonrepo.activity_restaurant;
 
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.location.Address;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -93,7 +92,7 @@ public class RestaurantActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent addIntent = new Intent(RestaurantActivity.this, AddRestaurantActivity.class);
                 //startActivity(addIntent);
-                startActivityForResult(addIntent, AddRestaurantActivity.ACTIVITY_CODE);
+                startActivityForResult(addIntent, AddRestaurantActivity.ADD_ACTIVITY_CODE);
             }
         });
     }
@@ -102,7 +101,7 @@ public class RestaurantActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == AddRestaurantActivity.ACTIVITY_CODE) {
+        if(requestCode == AddRestaurantActivity.ADD_ACTIVITY_CODE) {
             if(resultCode == AddRestaurantActivity.ADD_SUCCESS) {
                 //for demonstration purposes, result code is used to check if adding is successful. In this scenario,
                 //there is no chance for the add activity to fail.
@@ -115,6 +114,25 @@ public class RestaurantActivity extends AppCompatActivity {
 
                 //refresh the adapter
                 this.restaurantAdapter.notifyDataSetChanged();
+            }
+        }
+        else if(requestCode == AddRestaurantActivity.EDIT_ACTIVITY_CODE) {
+            if(resultCode == AddRestaurantActivity.ADD_SUCCESS) {
+                String name = data.getStringExtra(AddRestaurantActivity.RESTAURANT_NAME_KEY);
+                String desc = data.getStringExtra(AddRestaurantActivity.RESTAURANT_DESC_KEY);
+                int weight = data.getIntExtra(AddRestaurantActivity.WEIGHT_KEY, 0);
+                int modelIndex = data.getIntExtra(AddRestaurantActivity.EDIT_MODEL_INDEX_KEY, -1);
+
+                if(modelIndex >= 0) {
+                    RestaurantModel model = this.restaurantList.get(modelIndex);
+                    model.setName(name);
+                    model.setDescription(desc);
+                    model.setWeight(weight);
+
+                    //refresh the item
+                    this.restaurantAdapter.notifyItemChanged(modelIndex);
+
+                }
             }
         }
     }

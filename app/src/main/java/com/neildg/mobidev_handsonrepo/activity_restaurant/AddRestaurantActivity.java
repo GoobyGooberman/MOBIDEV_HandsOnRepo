@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -17,17 +18,23 @@ import com.neildg.mobidev_handsonrepo.R;
 public class AddRestaurantActivity extends AppCompatActivity {
     private final static String TAG = "AddRestaurantActivity";
 
-    public final static int ACTIVITY_CODE = 1;
+    public final static int ADD_ACTIVITY_CODE = 1;
+    public final static int EDIT_ACTIVITY_CODE = 2;
+
     public final static int ADD_SUCCESS = 1;
     public final static int ADD_FAILED = -1; //not really used.
 
+    public final static String REQUEST_CODE_KEY = "REQUEST_CODE_KEY";
     public final static String RESTAURANT_NAME_KEY = "RESTAURANT_NAME_KEY";
     public final static String RESTAURANT_DESC_KEY = "RESTAURANT_DESC_Key";
     public final static String WEIGHT_KEY = "WEIGHT_KEY";
+    public final static String EDIT_MODEL_INDEX_KEY = "EDIT_MODEL_INDEX_KEY";
 
     private EditText nameText;
     private EditText descText;
     private EditText weightText;
+
+    private int editModelIndex = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +46,7 @@ public class AddRestaurantActivity extends AppCompatActivity {
         this.weightText = this.findViewById(R.id.weight_text);
 
         this.setupButtons();
+        this.inputEditData();
     }
 
     private void setupButtons() {
@@ -60,8 +68,18 @@ public class AddRestaurantActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
-
+    private void inputEditData() {
+        Intent intent = this.getIntent();
+        int code = intent.getIntExtra(REQUEST_CODE_KEY, 1);
+        if(code == EDIT_ACTIVITY_CODE) {
+            //load input data
+            this.nameText.setText(intent.getStringExtra(RESTAURANT_NAME_KEY));
+            this.descText.setText(intent.getStringExtra(RESTAURANT_DESC_KEY));
+            this.weightText.setText(Integer.toString(intent.getIntExtra(WEIGHT_KEY, 0)));
+            this.editModelIndex = intent.getIntExtra(EDIT_MODEL_INDEX_KEY, -1);
+        }
     }
 
     private boolean validateInput() {
@@ -106,6 +124,7 @@ public class AddRestaurantActivity extends AppCompatActivity {
         resultIntent.putExtra(RESTAURANT_NAME_KEY, this.nameText.getText().toString());
         resultIntent.putExtra(RESTAURANT_DESC_KEY, this.descText.getText().toString());
         resultIntent.putExtra(WEIGHT_KEY, Integer.parseInt(this.weightText.getText().toString()));
+        resultIntent.putExtra(EDIT_MODEL_INDEX_KEY, this.editModelIndex);
         this.setResult(ADD_SUCCESS, resultIntent);
     }
 
