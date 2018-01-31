@@ -55,7 +55,7 @@ public class LifecycleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lifecycle);
 
-        this.onCreateNum++;
+   this.onCreateNum++;
         this.setupUI();
         this.restoreState();
         //this.restoreFromBundle(savedInstanceState);

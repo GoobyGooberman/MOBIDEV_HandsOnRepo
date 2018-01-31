@@ -7,6 +7,11 @@
             android:id="@+id/nav_lifecycle_test"
             android:icon="@drawable/ic_lifecycle"
             android:title="Lifecycle Test" />
+
+        <item
+            android:id="@+id/nav_lifecycle_test_2"
+            android:icon="@drawable/ic_lifecycle"
+            android:title="Lifecycle Test - Workspace" />
     </group>
 
 </menu>

@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.neildg.mobidev_handsonrepo.activity_lifecycle.LifecycleActivity;
+import com.neildg.mobidev_handsonrepo.activity_lifecycle.LifecycleActivityWorkspace;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -83,10 +84,17 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if(id == R.id.nav_lifecycle_test) {
-            Intent lifecycleIntent = new Intent(this, LifecycleActivity.class);
-            this.startActivity(lifecycleIntent);
+        if (id == R.id.nav_lifecycle_test){
+            //initialize intent
+            Intent i = new Intent(MainActivity.this,LifecycleActivity.class);
+            this.startActivity(i);
         }
+        if(id == R.id.nav_lifecycle_test_2) {
+            Intent i = new Intent(MainActivity.this,LifecycleActivityWorkspace.class);
+            this.startActivity(i);
+        }
+
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

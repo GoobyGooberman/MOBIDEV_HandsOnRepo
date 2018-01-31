@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.neildg.mobidev_handsonrepo.activity_lifecycle.LifecycleActivity">
+    tools:context="com.neildg.mobidev_handsonrepo.activity_lifecycle.LifecycleActivityWorkspace">
 
     <TextView
         android:id="@+id/textView2"
@@ -304,5 +304,4 @@
                 android:text="Log is displayed here." />
         </LinearLayout>
     </ScrollView>
-
 </android.support.constraint.ConstraintLayout>
