@@ -3,9 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MOBIDEV_HandsOnRepo.iml" filepath="$PROJECT_DIR$/MOBIDEV_HandsOnRepo.iml" />
-      <module fileurl="file://C:\Users\delgallegon\Documents\GithubProjects\MOBIDEV_HandsOnRepo\MOBIDEV_HandsOnRepo.iml" filepath="C:\Users\delgallegon\Documents\GithubProjects\MOBIDEV_HandsOnRepo\MOBIDEV_HandsOnRepo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\delgallegon\Documents\GithubProjects\MOBIDEV_HandsOnRepo\app\app.iml" filepath="C:\Users\delgallegon\Documents\GithubProjects\MOBIDEV_HandsOnRepo\app\app.iml" />
     </modules>
   </component>
 </project>

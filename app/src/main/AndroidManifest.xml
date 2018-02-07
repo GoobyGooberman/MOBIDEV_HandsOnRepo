@@ -20,7 +20,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity_lifecycle.LifecycleActivity" />
-        <activity android:name=".activity_lifecycle.LifecycleActivityWorkspace"></activity>
+        <activity android:name=".activity_lifecycle.LifecycleActivityWorkspace" />
+        <activity android:name=".activity_restaurant_workspace.RestaurantActivityWorkspace"></activity>
     </application>
 
 </manifest>
