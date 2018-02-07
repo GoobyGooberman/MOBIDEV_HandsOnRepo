@@ -55,7 +55,7 @@ public class LifecycleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lifecycle);
 
-   this.onCreateNum++;
+        this.onCreateNum++;
         this.setupUI();
         this.restoreState();
         //this.restoreFromBundle(savedInstanceState);
@@ -217,7 +217,7 @@ public class LifecycleActivity extends AppCompatActivity {
         editor.putInt(ON_STOP_NUM_KEY, this.onStopNum);
         editor.putInt(ON_DESTROY_NUM_KEY, this.onDestroyNum);
 
-       editor.commit(); //IMPORTANT! SAVE CHANGES
+        editor.commit(); //IMPORTANT! SAVE CHANGES
         Log.d(TAG, "Successfully saved state");
     }
 }
