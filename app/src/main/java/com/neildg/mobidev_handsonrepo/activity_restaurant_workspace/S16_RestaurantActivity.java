@@ -10,6 +10,6 @@ public class S16_RestaurantActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_s16__restaurant);
+        setContentView(R.layout.s16_activity_restaurant);
     }
 }
