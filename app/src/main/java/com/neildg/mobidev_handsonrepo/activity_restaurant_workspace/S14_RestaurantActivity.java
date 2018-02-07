@@ -5,11 +5,11 @@ import android.os.Bundle;
 
 import com.neildg.mobidev_handsonrepo.R;
 
-public class RestaurantActivityWorkspace extends AppCompatActivity {
+public class S14_RestaurantActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_restaurant_workspace);
+        setContentView(R.layout.s14_restaurant_workspace);
     }
 }

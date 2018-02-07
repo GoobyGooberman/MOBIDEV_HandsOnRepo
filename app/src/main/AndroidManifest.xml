@@ -22,9 +22,10 @@
         <activity android:name=".activity_lifecycle.LifecycleActivity" />
         <activity android:name=".activity_lifecycle.LifecycleActivityWorkspace" />
         <activity android:name=".activity_restaurant.AddRestaurantActivity" />
-        <activity android:name=".activity_restaurant_workspace.RestaurantActivityWorkspace" />
+        <activity android:name=".activity_restaurant_workspace.S14_RestaurantActivity" />
         <activity android:name=".activity_restaurant.RestaurantActivity" />
-        <activity android:name=".activity_restaurant.ChooseRestoWorkActivity"></activity>
+        <activity android:name=".activity_restaurant.ChooseRestoWorkActivity" />
+        <activity android:name=".activity_restaurant_workspace.S16_RestaurantActivity"></activity>
     </application>
 
 </manifest>
