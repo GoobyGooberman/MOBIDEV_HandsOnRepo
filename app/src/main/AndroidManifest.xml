@@ -26,6 +26,10 @@
         <activity android:name=".activity_restaurant.ChooseRestoWorkActivity" />
         <activity android:name=".activity_restaurant_workspace.S14_RestaurantActivity" />
         <activity android:name=".activity_restaurant_workspace.S16_RestaurantActivity" />
+        <activity
+            android:name=".activity_music_player.MusicPlayerActivity"
+            android:label="@string/title_activity_music_player"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
