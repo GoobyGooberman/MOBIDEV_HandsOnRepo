@@ -16,6 +16,7 @@ import android.view.MenuItem;
 
 import com.neildg.mobidev_handsonrepo.activity_lifecycle.LifecycleActivity;
 import com.neildg.mobidev_handsonrepo.activity_lifecycle.LifecycleActivityWorkspace;
+import com.neildg.mobidev_handsonrepo.activity_music_player.MusicPlayerActivity;
 import com.neildg.mobidev_handsonrepo.activity_restaurant.ChooseRestoWorkActivity;
 
 public class MainActivity extends AppCompatActivity
@@ -99,15 +100,11 @@ public class MainActivity extends AppCompatActivity
             Intent i = new Intent(MainActivity.this, ChooseRestoWorkActivity.class);
             this.startActivity(i);
         }
-        /*if(id == R.id.nav_restaurant) {
-            Intent i = new Intent(MainActivity.this,RestaurantActivity.class);
+
+        if(id == R.id.nav_music_player) {
+            Intent i = new Intent(MainActivity.this,MusicPlayerActivity.class);
             this.startActivity(i);
         }
-
-        if(id == R.id.nav_restaurant_2) {
-            Intent i = new Intent(MainActivity.this,S14_RestaurantActivity.class);
-            this.startActivity(i);
-        }*/
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

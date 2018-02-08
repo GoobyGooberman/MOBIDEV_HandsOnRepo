@@ -19,7 +19,7 @@
             android:title="Resto Surprise!" />
 
         --<item
-            android:id="@+id/nav_restaurant_2"
+            android:id="@+id/nav_music_player"
             android:icon="@drawable/nav_play_icon"
             android:title="Music Player" />
     </group>
