@@ -1,7 +1,7 @@
 package com.neildg.mobidev_handsonrepo.activity_restaurant;
 
 /**
- * Represents a restaurant model to be binded to the recycler view
+ * Represents a S16_RestaurantModel model to be binded to the recycler view
  * Created by NeilDG on 1/27/2018.
  */
 

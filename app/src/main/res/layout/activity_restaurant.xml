@@ -8,7 +8,7 @@
     tools:context="com.neildg.mobidev_handsonrepo.activity_restaurant.RestaurantActivity">
 
     <Button
-        android:id="@+id/surprise_btn"
+        android:id="@+id/s16_surprise_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -18,13 +18,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/add_btn"
+        android:id="@+id/s16_add_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="16dp"
         android:text="ADD"
-        app:layout_constraintEnd_toStartOf="@+id/surprise_btn"
+        app:layout_constraintEnd_toStartOf="@+id/s16_surprise_btn"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -40,7 +40,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_btn" />
+        app:layout_constraintTop_toBottomOf="@+id/s16_add_btn" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/restaurant_recycler_view"

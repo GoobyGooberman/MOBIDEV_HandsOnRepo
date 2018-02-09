@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents the adapter class that will bind the restaurant model to its corresponding view.
+ * Represents the adapter class that will bind the S16_RestaurantModel model to its corresponding view.
  * Created by NeilDG on 1/27/2018.
  */
 

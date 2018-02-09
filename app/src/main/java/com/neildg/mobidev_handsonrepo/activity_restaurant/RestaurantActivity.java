@@ -70,7 +70,7 @@ public class RestaurantActivity extends AppCompatActivity {
     }
 
     private void setupButtons() {
-        Button surpriseBtn = this.findViewById(R.id.surprise_btn);
+        Button surpriseBtn = this.findViewById(R.id.s16_surprise_btn);
         surpriseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,7 +86,7 @@ public class RestaurantActivity extends AppCompatActivity {
             }
         });
 
-        Button addBtn = this.findViewById(R.id.add_btn);
+        Button addBtn = this.findViewById(R.id.s16_add_btn);
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

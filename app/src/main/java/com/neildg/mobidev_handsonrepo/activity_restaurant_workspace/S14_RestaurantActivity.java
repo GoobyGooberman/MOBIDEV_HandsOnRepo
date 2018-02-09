@@ -23,7 +23,7 @@ public class S14_RestaurantActivity extends AppCompatActivity {
         this.createDefaultRestaurants();
     }
 
-    //TODO: Create atleast 10 restaurants that uses a restaurant model
+    //TODO: Create atleast 10 restaurants that uses a S16_RestaurantModel model
     private void createDefaultRestaurants() {
         ArrayList<S14_RestaurantModel> resto = new ArrayList<S14_RestaurantModel>();
             resto.add(new S14_RestaurantModel("McDonalds", "Love Ko 'To", 20));
