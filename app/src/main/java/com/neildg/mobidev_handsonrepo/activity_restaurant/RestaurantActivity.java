@@ -93,6 +93,8 @@ public class RestaurantActivity extends AppCompatActivity {
                 Intent addIntent = new Intent(RestaurantActivity.this, AddRestaurantActivity.class);
                 //startActivity(addIntent);
                 startActivityForResult(addIntent, AddRestaurantActivity.ADD_ACTIVITY_CODE);
+
+                RestaurantActivity.this.recyclerView.setAdapter(null);
             }
         });
     }
@@ -106,14 +108,12 @@ public class RestaurantActivity extends AppCompatActivity {
                 //for demonstration purposes, result code is used to check if adding is successful. In this scenario,
                 //there is no chance for the add activity to fail.
                 String name = data.getStringExtra(AddRestaurantActivity.RESTAURANT_NAME_KEY);
-                String desc = data.getStringExtra(AddRestaurantActivity.RESTAURANT_DESC_KEY);
-                int weight = data.getIntExtra(AddRestaurantActivity.WEIGHT_KEY, 0);
 
-                RestaurantModel model = new RestaurantModel(name, desc, weight);
+                RestaurantModel model = new RestaurantModel(name, "", 0);
                 this.restaurantList.add(model);
 
                 //refresh the adapter
-                this.restaurantAdapter.notifyDataSetChanged();
+                RestaurantActivity.this.restaurantAdapter.notifyDataSetChanged();
             }
         }
         else if(requestCode == AddRestaurantActivity.EDIT_ACTIVITY_CODE) {
