@@ -13,11 +13,11 @@ import java.util.List;
  * Created by Administrator on 2/9/2018.
  */
 
-public class RestaurantAdapter extends RecyclerView.Adapter<S16_ItemViewHolder> {
+public class S16_RestaurantAdapter extends RecyclerView.Adapter<S16_ItemViewHolder> {
     private List<S16_RestaurantModel> restaurants;
     private S16_ItemViewHolder restaurantviewholder;
 
-    public RestaurantAdapter(List<S16_RestaurantModel> restaurants){
+    public S16_RestaurantAdapter(List<S16_RestaurantModel> restaurants){
         this.restaurants = restaurants;
     }
 

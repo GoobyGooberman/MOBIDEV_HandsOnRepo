@@ -16,7 +16,7 @@ import java.util.List;
  */
 
 public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantViewHolder>{
-    private final static String TAG = "RestaurantAdapter";
+    private final static String TAG = "S16_RestaurantAdapter";
 
     private List<RestaurantModel> modelList;
 
