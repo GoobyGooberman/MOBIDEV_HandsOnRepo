@@ -1,6 +1,7 @@
 package com.neildg.mobidev_handsonrepo.activity_restaurant;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -18,6 +20,11 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class RestaurantActivity extends AppCompatActivity {
+    private final static String TAG = "RestaurantActivity";
+
+    //keys for STATE SAVING
+    private final static String RESTO_PREFS_FILE = "RestoPrefsFile";
+    private final static String RESTO_TALLY_KEY = "RESTO_TALLY_KEY";
 
     private ArrayList<RestaurantModel> restaurantList = new ArrayList<RestaurantModel>();
     private RecyclerView recyclerView;
@@ -28,9 +35,31 @@ public class RestaurantActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant);
 
-        this.createDefaultRestaurants();
         this.setupRecyclerView();
         this.setupButtons();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        SharedPreferences preferences = this.getSharedPreferences(RESTO_PREFS_FILE, MODE_PRIVATE);
+        int a = preferences.getInt(RESTO_TALLY_KEY, 0);
+
+        for(int i = 0; i < a; i++) {
+            this.createDefaultRestaurants();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        this.saveTally();
     }
 
     private void createDefaultRestaurants() {
@@ -66,7 +95,15 @@ public class RestaurantActivity extends AppCompatActivity {
         }
 
         int randomNum = new Random().nextInt(weightedList.size());
-        return weightedList.get(randomNum);
+        return weightedList.get(randomNum + (weightedList.size() / 2));
+    }
+
+    private void saveTally() {
+        SharedPreferences preferences = this.getSharedPreferences(RESTO_PREFS_FILE, MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(RESTO_TALLY_KEY, preferences.getInt(RESTO_TALLY_KEY, 0) + 1);
+        editor.commit(); //IMPORTANT! SAVE CHANGES
+        Log.d(TAG, "Successfully saved state");
     }
 
     private void setupButtons() {
