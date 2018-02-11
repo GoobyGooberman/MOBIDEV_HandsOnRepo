@@ -26,6 +26,8 @@
         <activity android:name=".activity_restaurant.ChooseRestoWorkActivity" />
         <activity android:name=".activity_restaurant_workspace.S14_RestaurantActivity" />
         <activity android:name=".activity_restaurant_workspace.S16_RestaurantActivity" />
+        <activity android:name=".exam_locker.LockerActivity" />
+        <activity android:name=".exam_locker.UnlockActivity"></activity>
     </application>
 
 </manifest>

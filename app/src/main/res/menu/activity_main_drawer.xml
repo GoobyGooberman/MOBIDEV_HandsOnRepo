@@ -2,7 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--checkable behavior is like a checkbox for navigation. Only 1 item can be selected -->
-    <group android:checkableBehavior="single">
+    <group
+        android:checkableBehavior="single"
+        android:visible="true">
         <item
             android:id="@+id/nav_lifecycle_test"
             android:icon="@drawable/ic_lifecycle"
@@ -18,10 +20,14 @@
             android:icon="@drawable/ic_lifecycle"
             android:title="Resto Surprise!" />
 
-        <!--<item
-            android:id="@+id/nav_restaurant_2"
-            android:icon="@drawable/ic_lifecycle"
-            android:title="Resto Surprise! - Workspace" />-->
+    </group>
+    <group
+        android:checkableBehavior="single"
+        android:visible="true">
+        <item
+            android:id="@+id/nav_exam_1"
+            android:icon="@drawable/ic_menu_locker"
+            android:title="Exam #1" />
     </group>
 
 </menu>
