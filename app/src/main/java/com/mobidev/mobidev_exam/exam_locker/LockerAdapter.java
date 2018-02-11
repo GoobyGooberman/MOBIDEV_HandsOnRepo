@@ -1,11 +1,11 @@
-package com.neildg.mobidev_handsonrepo.exam_locker;
+package com.mobidev.mobidev_exam.exam_locker;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.neildg.mobidev_handsonrepo.R;
+import com.mobidev.mobidev_exam.R;
 
 import java.util.ArrayList;
 import java.util.List;

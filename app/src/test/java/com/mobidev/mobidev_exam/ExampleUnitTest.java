@@ -1,4 +1,4 @@
-package com.neildg.mobidev_handsonrepo;
+package com.mobidev.mobidev_exam;
 
 import org.junit.Test;
 

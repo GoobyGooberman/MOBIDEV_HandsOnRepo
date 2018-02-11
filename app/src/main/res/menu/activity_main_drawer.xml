@@ -1,26 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--checkable behavior is like a checkbox for navigation. Only 1 item can be selected -->
-    <group
-        android:checkableBehavior="single"
-        android:visible="true">
-        <item
-            android:id="@+id/nav_lifecycle_test"
-            android:icon="@drawable/ic_lifecycle"
-            android:title="Lifecycle Test" />
-
-        <item
-            android:id="@+id/nav_lifecycle_test_2"
-            android:icon="@drawable/ic_lifecycle"
-            android:title="Lifecycle Test - Workspace" />
-
-        <item
-            android:id="@+id/nav_restaurant"
-            android:icon="@drawable/ic_lifecycle"
-            android:title="Resto Surprise!" />
-
-    </group>
     <group
         android:checkableBehavior="single"
         android:visible="true">

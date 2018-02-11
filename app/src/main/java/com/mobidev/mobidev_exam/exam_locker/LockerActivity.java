@@ -1,4 +1,4 @@
-package com.neildg.mobidev_handsonrepo.exam_locker;
+package com.mobidev.mobidev_exam.exam_locker;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,17 +8,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.neildg.mobidev_handsonrepo.R;
+import com.mobidev.mobidev_exam.R;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class LockerActivity extends AppCompatActivity {
 
-    private LockerViewHandler[] lockerViewHandlers = new LockerViewHandler[3];
     private ArrayList<String> acceptedCombinations = new ArrayList<>();
-
     private TextView combinationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,13 +30,8 @@ public class LockerActivity extends AppCompatActivity {
     private void setupLocks() {
         this.combinationView = this.findViewById(R.id.combination_txt_view);
         RecyclerView lockView = this.findViewById(R.id.lock_view_1);
-        this.lockerViewHandlers[0] =  new LockerViewHandler(lockView, this);
 
-        lockView = this.findViewById(R.id.lock_view_2);
-        this.lockerViewHandlers[1] = new LockerViewHandler(lockView, this);
-
-        lockView = this.findViewById(R.id.lock_view_3);
-        this.lockerViewHandlers[2] = new LockerViewHandler(lockView, this);
+        //setup your three "locks" here
     }
 
     private void setupButtons() {
@@ -46,27 +39,10 @@ public class LockerActivity extends AppCompatActivity {
         addBtn.setEnabled(false);
 
         Button enterBtn = this.findViewById(R.id.enter_btn);
-
-        enterBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String a = lockerViewHandlers[0].getVisibleItem().getNumberString();
-                String b = lockerViewHandlers[1].getVisibleItem().getNumberString();
-                String c = lockerViewHandlers[2].getVisibleItem().getNumberString();
-
-                LockerActivity.this.verifyAndUnlock(a,b,c);
-            }
-        });
+        enterBtn.setEnabled(false);
 
         Button shuffleBtn = this.findViewById(R.id.shuffle_btn);
-        shuffleBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                lockerViewHandlers[0].shuffle();
-                lockerViewHandlers[1].shuffle();
-                lockerViewHandlers[2].shuffle();
-            }
-        });
+        shuffleBtn.
     }
 
     private void verifyAndUnlock(String a, String b, String c) {

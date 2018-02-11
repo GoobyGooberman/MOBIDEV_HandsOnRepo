@@ -1,4 +1,4 @@
-package com.neildg.mobidev_handsonrepo.exam_locker;
+package com.mobidev.mobidev_exam.exam_locker;
 
 /**
  * Created by NeilDG on 2/11/2018.

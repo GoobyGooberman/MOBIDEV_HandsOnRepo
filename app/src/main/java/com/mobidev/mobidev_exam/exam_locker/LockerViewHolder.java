@@ -1,10 +1,10 @@
-package com.neildg.mobidev_handsonrepo.exam_locker;
+package com.mobidev.mobidev_exam.exam_locker;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.neildg.mobidev_handsonrepo.R;
+import com.mobidev.mobidev_exam.R;
 
 /**
  * Created by NeilDG on 2/11/2018.

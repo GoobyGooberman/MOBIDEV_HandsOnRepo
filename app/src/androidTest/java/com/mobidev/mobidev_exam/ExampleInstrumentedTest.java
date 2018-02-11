@@ -1,4 +1,4 @@
-package com.neildg.mobidev_handsonrepo;
+package com.mobidev.mobidev_exam;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
