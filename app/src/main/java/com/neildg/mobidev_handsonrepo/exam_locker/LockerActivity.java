@@ -42,6 +42,9 @@ public class LockerActivity extends AppCompatActivity {
     }
 
     private void setupButtons() {
+        Button addBtn = this.findViewById(R.id.add_btn);
+        addBtn.setEnabled(false);
+
         Button enterBtn = this.findViewById(R.id.enter_btn);
 
         enterBtn.setOnClickListener(new View.OnClickListener() {

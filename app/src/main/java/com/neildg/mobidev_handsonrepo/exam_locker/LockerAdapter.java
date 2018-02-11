@@ -32,14 +32,7 @@ public class LockerAdapter extends RecyclerView.Adapter<LockerViewHolder> {
     @Override
     public void onBindViewHolder(LockerViewHolder holder, int position) {
         LockerDataModel model = this.modelList.get(position);
-
-        if(model.getCurrentKeyType() == LockerDataModel.KeyType.NUMBER) {
-            holder.getLockerKeyView().setText(model.getNumberString());
-        }
-        else {
-            holder.getLockerKeyView().setText(model.getLetterChar());
-        }
-
+        holder.getLockerKeyView().setText(model.getNumberString());
     }
 
     @Override

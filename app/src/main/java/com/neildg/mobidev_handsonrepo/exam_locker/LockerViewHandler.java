@@ -32,40 +32,40 @@ public class LockerViewHandler {
 
     private void generateKeys() {
 
-        LockerDataModel model = new LockerDataModel(0, 'A');
+        LockerDataModel model = new LockerDataModel(0);
         this.lockerDataList.add(model);
 
-        model = new LockerDataModel(0, 'A');
+        model = new LockerDataModel(0);
         this.lockerDataList.add(model);
 
-        model = new LockerDataModel(1, 'B');
+        model = new LockerDataModel(1);
         this.lockerDataList.add(model);
 
-        model = new LockerDataModel(2, 'C');
+        model = new LockerDataModel(2);
         this.lockerDataList.add(model);
 
-        model = new LockerDataModel(3, 'D');
+        model = new LockerDataModel(3);
         this.lockerDataList.add(model);
 
-        model = new LockerDataModel(4, 'E');
+        model = new LockerDataModel(4);
         this.lockerDataList.add(model);
 
-        model = new LockerDataModel(5, 'F');
+        model = new LockerDataModel(5);
         this.lockerDataList.add(model);
 
-        model = new LockerDataModel(6, 'G');
+        model = new LockerDataModel(6);
         this.lockerDataList.add(model);
 
-        model = new LockerDataModel(7, 'H');
+        model = new LockerDataModel(7);
         this.lockerDataList.add(model);
 
-        model = new LockerDataModel(8, 'I');
+        model = new LockerDataModel(8);
         this.lockerDataList.add(model);
 
-        model = new LockerDataModel(9, 'J');
+        model = new LockerDataModel(9);
         this.lockerDataList.add(model);
 
-        model = new LockerDataModel(9, 'J');
+        model = new LockerDataModel(9);
         this.lockerDataList.add(model);
 
     }
