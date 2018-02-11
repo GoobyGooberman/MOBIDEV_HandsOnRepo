@@ -29,12 +29,13 @@ public class LockerActivity extends AppCompatActivity {
 
     private void setupLocks() {
         this.combinationView = this.findViewById(R.id.combination_txt_view);
-        RecyclerView lockView = this.findViewById(R.id.lock_view_1);
-
         //setup your three "locks" here
     }
 
     private void setupButtons() {
+        /*TODO: Add button listeners! If you already have the button functionalities, then remove 'setEnabled' function call and replace
+         *TODO: with an onClick listener!
+         */
         Button addBtn = this.findViewById(R.id.add_btn);
         addBtn.setEnabled(false);
 
@@ -42,7 +43,7 @@ public class LockerActivity extends AppCompatActivity {
         enterBtn.setEnabled(false);
 
         Button shuffleBtn = this.findViewById(R.id.shuffle_btn);
-        shuffleBtn.
+        shuffleBtn.setEnabled(false);
     }
 
     private void verifyAndUnlock(String a, String b, String c) {

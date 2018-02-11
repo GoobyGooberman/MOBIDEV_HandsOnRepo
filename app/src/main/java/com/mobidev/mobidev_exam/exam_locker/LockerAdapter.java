@@ -25,14 +25,13 @@ public class LockerAdapter extends RecyclerView.Adapter<LockerViewHolder> {
 
     @Override
     public LockerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View viewInstance = LayoutInflater.from(parent.getContext()).inflate(R.layout.locker_item, parent, false);
-        return new LockerViewHolder(viewInstance);
+        //TODO: modify this
+       return null;
     }
 
     @Override
     public void onBindViewHolder(LockerViewHolder holder, int position) {
-        LockerDataModel model = this.modelList.get(position);
-        holder.getLockerKeyView().setText(model.getNumberString());
+        //TODO: modify this
     }
 
     @Override

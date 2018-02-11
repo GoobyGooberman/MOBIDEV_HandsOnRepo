@@ -14,14 +14,6 @@ public class UnlockActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_unlock);
 
-        Button backBtn = this.findViewById(R.id.back_btn);
-        backBtn.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        finish();
-                    }
-                }
-        );
+        //TODO: do not forget to add a BACK btn functionality!
     }
 }
