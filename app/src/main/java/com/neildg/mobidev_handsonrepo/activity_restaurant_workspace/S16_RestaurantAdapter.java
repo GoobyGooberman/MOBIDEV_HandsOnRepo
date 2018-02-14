@@ -32,7 +32,7 @@ public class S16_RestaurantAdapter extends RecyclerView.Adapter<S16_ItemViewHold
         S16_RestaurantModel restaurant = this.restaurants.get(position);
         holder.getRestaurantname().setText(restaurant.getName());
         holder.getDescription().setText(restaurant.getDescription());
-        holder.getWeight().setText(restaurant.getWeight());
+        holder.getWeight().setText(Integer.toString(restaurant.getWeight()));
     }
 
     @Override
