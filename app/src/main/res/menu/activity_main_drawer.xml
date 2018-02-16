@@ -18,10 +18,10 @@
             android:icon="@drawable/ic_lifecycle"
             android:title="Resto Surprise!" />
 
-        <!--<item
-            android:id="@+id/nav_restaurant_2"
-            android:icon="@drawable/ic_lifecycle"
-            android:title="Resto Surprise! - Workspace" />-->
+        <item
+            android:id="@+id/nav_music_player"
+            android:icon="@drawable/ic_music_player"
+            android:title="Music Player" />
     </group>
 
 </menu>
