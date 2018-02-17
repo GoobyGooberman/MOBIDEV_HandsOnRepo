@@ -20,12 +20,14 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.neildg.mobidev_handsonrepo.R;
-import com.neildg.mobidev_handsonrepo.activity_musicplayer.music_service.MusicBinder;
-import com.neildg.mobidev_handsonrepo.activity_musicplayer.music_service.MusicService;
-import com.neildg.mobidev_handsonrepo.activity_restaurant.RestaurantAdapter;
+import com.neildg.mobidev_handsonrepo.activity_musicplayer.music_playback.MusicBinder;
+import com.neildg.mobidev_handsonrepo.activity_musicplayer.music_playback.MusicController;
+import com.neildg.mobidev_handsonrepo.activity_musicplayer.music_playback.MusicPlayerControl;
+import com.neildg.mobidev_handsonrepo.activity_musicplayer.music_playback.MusicService;
 
 import java.util.ArrayList;
 
@@ -42,6 +44,9 @@ public class MusicPlayerActivity extends AppCompatActivity implements IPlaySongL
     private Intent playIntent;
     private boolean musicBound=false;
     private ServiceConnection musicConnection;
+
+    private MusicController musicController;
+    private MusicPlayerControl musicPlayerControl;
 
     private TextView titleView;
     private TextView artistView;
@@ -143,11 +148,11 @@ public class MusicPlayerActivity extends AppCompatActivity implements IPlaySongL
     }
 
     private void setupUI() {
-        this.titleView = this.findViewById(R.id.song_title_txt);
+        /*this.titleView = this.findViewById(R.id.song_title_txt);
         this.artistView = this.findViewById(R.id.artist_txt);
 
         this.titleView.setText("Select a song");
-        this.artistView.setText("");
+        this.artistView.setText("");*/
 
         this.songView = this.findViewById(R.id.music_view);
         this.songAdapter = new SongAdapter(this.songList, this);
@@ -155,14 +160,34 @@ public class MusicPlayerActivity extends AppCompatActivity implements IPlaySongL
         this.songView.setLayoutManager(recylerLayoutManager);
         this.songView.setItemAnimator(new DefaultItemAnimator());
         this.songView.setAdapter(this.songAdapter);
+
+        //setup the music controller
+        this.musicPlayerControl = new MusicPlayerControl(this);
+        this.musicController = new MusicController(this);
+        this.musicController.setPrevNextListeners(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                musicService.playNext();
+            }
+        }, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                musicService.playPrevious();
+            }
+        });
+
+        this.musicController.setMediaPlayer(this.musicPlayerControl);
+        this.musicController.setAnchorView(this.findViewById(R.id.media_control_layout));
+        this.musicController.setEnabled(true);
+        this.musicController.show();
     }
 
     @Override
     public void onPlayRequested(int songIndex) {
-        Log.d(TAG, "Play requested. Song title: " +this.songList.get(songIndex).getSongName());
         if(this.musicService != null) {
             this.musicService.setSong(songIndex);
             this.musicService.playSong();
+            Log.d(TAG, "Play requested. Song title: " +this.songList.get(songIndex).getSongName());
         }
         else {
             Log.e(TAG, "Music service is not properly setup!");
@@ -196,4 +221,5 @@ public class MusicPlayerActivity extends AppCompatActivity implements IPlaySongL
             Log.d(TAG, "Successfully setup service!");
         }
     }
+
 }

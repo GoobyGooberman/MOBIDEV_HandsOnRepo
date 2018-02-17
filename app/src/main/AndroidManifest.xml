@@ -51,7 +51,7 @@
             android:label="Choose Music Player Work" />
 
         <service
-            android:name=".activity_musicplayer.music_service.MusicService"
+            android:name=".activity_musicplayer.music_playback.MusicService"
             android:enabled="true"
             android:exported="false"></service>
     </application>

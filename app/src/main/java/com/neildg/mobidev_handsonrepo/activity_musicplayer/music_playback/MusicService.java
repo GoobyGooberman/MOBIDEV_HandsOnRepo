@@ -1,4 +1,4 @@
-package com.neildg.mobidev_handsonrepo.activity_musicplayer.music_service;
+package com.neildg.mobidev_handsonrepo.activity_musicplayer.music_playback;
 
 import android.app.Service;
 import android.content.ContentUris;
@@ -47,6 +47,28 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
             e.printStackTrace();
         }
 
+    }
+
+    public void playNext() {
+        if(this.currentSongIndex < this.playlist.size()) {
+            this.currentSongIndex++;
+        }
+        else {
+            this.currentSongIndex = 0;
+        }
+
+        this.playSong();
+    }
+
+    public void playPrevious() {
+        if(this.currentSongIndex > 0) {
+            this.currentSongIndex--;
+        }
+        else {
+            this.currentSongIndex = this.playlist.size() - 1;
+        }
+
+        this.playSong();
     }
 
     public void setSong(int index) {
