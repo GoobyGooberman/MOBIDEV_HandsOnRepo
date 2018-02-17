@@ -9,10 +9,16 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.neildg.mobidev_handsonrepo.R;
+import com.neildg.mobidev_handsonrepo.activity_restaurant.RestaurantAdapter;
 
 import java.util.ArrayList;
 
@@ -22,6 +28,11 @@ public class MusicPlayerActivity extends AppCompatActivity {
     private final static int PERMISSION_READ_EXTERNAL_STORAGE = 1;
 
     private ArrayList<SongModel> songList = new ArrayList<>();
+    private RecyclerView songView;
+    private SongAdapter songAdapter;
+
+    private TextView titleView;
+    private TextView artistView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +47,14 @@ public class MusicPlayerActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.music_player_menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.item_stop) {
+            this.finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void requestPermissions() {
@@ -88,12 +107,27 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
                 // permission was granted, yay!
                 this.loadSongsFromStorage();
+                this.setupUI();
 
             } else {
-
                 // permission denied, boo!
                 this.finish();
             }
         }
+    }
+
+    private void setupUI() {
+        this.titleView = this.findViewById(R.id.song_title_txt);
+        this.artistView = this.findViewById(R.id.artist_txt);
+
+        this.titleView.setText("Select a song");
+        this.artistView.setText("");
+
+        this.songView = this.findViewById(R.id.music_view);
+        this.songAdapter = new SongAdapter(this.songList);
+        RecyclerView.LayoutManager recylerLayoutManager = new LinearLayoutManager(this);
+        this.songView.setLayoutManager(recylerLayoutManager);
+        this.songView.setItemAnimator(new DefaultItemAnimator());
+        this.songView.setAdapter(this.songAdapter);
     }
 }
