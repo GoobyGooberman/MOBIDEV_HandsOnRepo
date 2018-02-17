@@ -49,7 +49,7 @@ public class MusicPlayNotification {
 
                 // Set required fields, including the small icon, the
                 // notification title, and text.
-                .setSmallIcon(R.drawable.ic_stat_music_play)
+                .setSmallIcon(R.drawable.ic_music_play)
                 .setContentTitle(title)
                 .setContentText(text)
 

@@ -183,6 +183,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements IPlaySongL
     private void setupMusicController() {
         //setup the music controller
         if(this.musicPlayerControl != null) {
+            this.musicController.markForCleaning(true);
             this.musicController.hide();
             this.musicController = null;
             this.musicPlayerControl = null;
