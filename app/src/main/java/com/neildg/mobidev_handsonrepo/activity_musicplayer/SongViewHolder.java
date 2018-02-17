@@ -15,11 +15,21 @@ public class SongViewHolder extends RecyclerView.ViewHolder {
     private TextView songTxtView;
     private TextView artistTxtView;
 
-    public SongViewHolder(View itemView) {
+    private IPlaySongListener songListener;
+
+    public SongViewHolder(View itemView, final IPlaySongListener songListener) {
         super(itemView);
 
         this.songTxtView = itemView.findViewById(R.id.song_title_txt);
         this.artistTxtView = itemView.findViewById(R.id.artist_name_txt);
+        this.songListener = songListener;
+
+        this.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                songListener.onPlayRequested(SongViewHolder.this.getAdapterPosition());
+            }
+        });
     }
 
 

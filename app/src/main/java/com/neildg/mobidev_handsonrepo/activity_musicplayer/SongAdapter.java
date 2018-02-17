@@ -17,15 +17,17 @@ public class SongAdapter extends RecyclerView.Adapter<SongViewHolder> {
     private final static String TAG = "SongAdapter";
 
     private List<SongModel> songModelList;
+    private IPlaySongListener songListener;
 
-    public SongAdapter(ArrayList<SongModel> modelList) {
+    public SongAdapter(ArrayList<SongModel> modelList, IPlaySongListener songListener) {
         this.songModelList = modelList;
+        this.songListener = songListener;
     }
 
     @Override
     public SongViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View viewInstance = LayoutInflater.from(parent.getContext()).inflate(R.layout.song_item_layout, parent, false);
-        return new SongViewHolder(viewInstance);
+        return new SongViewHolder(viewInstance,this.songListener);
     }
 
     @Override

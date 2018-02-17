@@ -1,10 +1,15 @@
 package com.neildg.mobidev_handsonrepo.activity_musicplayer;
 
 import android.Manifest;
+import android.content.ComponentName;
 import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -18,11 +23,13 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.neildg.mobidev_handsonrepo.R;
+import com.neildg.mobidev_handsonrepo.activity_musicplayer.music_service.MusicBinder;
+import com.neildg.mobidev_handsonrepo.activity_musicplayer.music_service.MusicService;
 import com.neildg.mobidev_handsonrepo.activity_restaurant.RestaurantAdapter;
 
 import java.util.ArrayList;
 
-public class MusicPlayerActivity extends AppCompatActivity {
+public class MusicPlayerActivity extends AppCompatActivity implements IPlaySongListener {
     private final static String TAG = "MusicPlayerActivity";
 
     private final static int PERMISSION_READ_EXTERNAL_STORAGE = 1;
@@ -30,6 +37,11 @@ public class MusicPlayerActivity extends AppCompatActivity {
     private ArrayList<SongModel> songList = new ArrayList<>();
     private RecyclerView songView;
     private SongAdapter songAdapter;
+
+    private MusicService musicService;
+    private Intent playIntent;
+    private boolean musicBound=false;
+    private ServiceConnection musicConnection;
 
     private TextView titleView;
     private TextView artistView;
@@ -40,6 +52,18 @@ public class MusicPlayerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_music_player);
 
         this.requestPermissions();
+        this.setupMusicService();
+        this.startMusicService();
+    }
+
+    @Override
+    protected void onDestroy() {
+        this.stopService(this.playIntent);
+        this.unbindService(this.musicConnection); //IMPORTANT! DO NOT FORGET
+        this.musicService = null;
+        Log.d(TAG, "Music service successfully stopped!");
+        super.onDestroy();
+
     }
 
     @Override
@@ -105,9 +129,11 @@ public class MusicPlayerActivity extends AppCompatActivity {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
+                Log.d(TAG, "Permissiong granted!");
                 // permission was granted, yay!
                 this.loadSongsFromStorage();
                 this.setupUI();
+
 
             } else {
                 // permission denied, boo!
@@ -124,10 +150,50 @@ public class MusicPlayerActivity extends AppCompatActivity {
         this.artistView.setText("");
 
         this.songView = this.findViewById(R.id.music_view);
-        this.songAdapter = new SongAdapter(this.songList);
+        this.songAdapter = new SongAdapter(this.songList, this);
         RecyclerView.LayoutManager recylerLayoutManager = new LinearLayoutManager(this);
         this.songView.setLayoutManager(recylerLayoutManager);
         this.songView.setItemAnimator(new DefaultItemAnimator());
         this.songView.setAdapter(this.songAdapter);
+    }
+
+    @Override
+    public void onPlayRequested(int songIndex) {
+        Log.d(TAG, "Play requested. Song title: " +this.songList.get(songIndex).getSongName());
+        if(this.musicService != null) {
+            this.musicService.setSong(songIndex);
+            this.musicService.playSong();
+        }
+        else {
+            Log.e(TAG, "Music service is not properly setup!");
+        }
+    }
+
+    private void setupMusicService() {
+        this.musicConnection = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                MusicBinder binder = (MusicBinder) service;
+
+                MusicPlayerActivity.this.musicService = binder.getService();
+                MusicPlayerActivity.this.musicService.setPlaylist(MusicPlayerActivity.this.songList);
+                MusicPlayerActivity.this.musicBound = true;
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                MusicPlayerActivity.this.musicBound = true;
+            }
+        };
+    }
+
+    private void startMusicService() {
+        if(this.playIntent==null){
+            this.playIntent = new Intent(this, MusicService.class);
+            this.bindService(this.playIntent, this.musicConnection, Context.BIND_AUTO_CREATE);
+            this.startService(this.playIntent);
+
+            Log.d(TAG, "Successfully setup service!");
+        }
     }
 }
