@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.IBinder;
 import android.os.PowerManager;
 
+import com.neildg.mobidev_handsonrepo.activity_musicplayer.IPlaySongListener;
 import com.neildg.mobidev_handsonrepo.activity_musicplayer.SongModel;
 
 import java.io.IOException;
@@ -16,18 +17,16 @@ import java.util.ArrayList;
 
 public class MusicService extends Service implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
 
+    private IPlaySongListener songListener;
     private MediaPlayer mediaPlayer;
     private MusicBinder musicBinder;
     private ArrayList<SongModel> playlist;
 
     private int currentSongIndex = 0;
 
-    public MusicService() {
-
-    }
-
-    public void setPlaylist(ArrayList<SongModel> playlist) {
+    public void setPlaylist(ArrayList<SongModel> playlist, IPlaySongListener songListener) {
         this.playlist = playlist;
+        this.songListener = songListener;
     }
 
     public void playSong() {
@@ -43,6 +42,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         try {
             this.mediaPlayer.setDataSource(this.getApplicationContext(), trackUri);
             this.mediaPlayer.prepareAsync();
+            this.songListener.onSongUpdated(this.currentSongIndex);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -50,7 +50,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     }
 
     public void playNext() {
-        if(this.currentSongIndex < this.playlist.size()) {
+        if(this.currentSongIndex < this.playlist.size() - 1) {
             this.currentSongIndex++;
         }
         else {
@@ -76,27 +76,49 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     }
 
     public boolean isPlaying() {
-        return this.mediaPlayer.isPlaying();
+        if(this.mediaPlayer != null) {
+            return this.mediaPlayer.isPlaying();
+        }
+        else {
+            return false;
+        }
     }
 
     public int getCurrentSongDuration() {
-        return this.mediaPlayer.getDuration();
+        if(this.mediaPlayer != null) {
+            return this.mediaPlayer.getDuration();
+        }
+        else {
+            return 0;
+        }
     }
 
     public int getCurrentSongPosition() {
-        return this.mediaPlayer.getCurrentPosition();
+        if(this.mediaPlayer != null) {
+            return this.mediaPlayer.getCurrentPosition();
+        }
+        else {
+            return 0;
+        }
+
     }
 
     public void resume() {
-        this.mediaPlayer.start();
+        if(this.mediaPlayer != null) {
+            this.mediaPlayer.start();
+        }
     }
 
     public void pause() {
-        this.mediaPlayer.pause();
+        if(this.mediaPlayer != null) {
+            this.mediaPlayer.pause();
+        }
     }
 
     public void seek(int newSec) {
-        this.mediaPlayer.seekTo(newSec);
+        if(this.mediaPlayer != null) {
+            this.mediaPlayer.seekTo(newSec);
+        }
     }
 
     @Override
@@ -124,6 +146,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     public boolean onUnbind(Intent intent) {
         this.mediaPlayer.stop();
         this.mediaPlayer.release();
+        this.mediaPlayer = null;
         return super.onUnbind(intent);
     }
 
@@ -134,7 +157,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-
+        this.playNext();
     }
 
     @Override

@@ -67,6 +67,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements IPlaySongL
         this.unbindService(this.musicConnection); //IMPORTANT! DO NOT FORGET
 
         //IMPORTANT FOR RESETTING THE MUSIC PLAYER CONTROL
+        this.musicController.markForCleaning(true);
         this.musicController.hide();
         this.musicService = null;
         this.musicController = null;
@@ -179,18 +180,20 @@ public class MusicPlayerActivity extends AppCompatActivity implements IPlaySongL
             this.musicController = null;
             this.musicPlayerControl = null;
         }
-        
+
         this.musicPlayerControl = new MusicPlayerControl(this, this.musicService);
         this.musicController = new MusicController(this);
         this.musicController.setPrevNextListeners(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 musicService.playNext();
+                musicController.show(0);
             }
         }, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 musicService.playPrevious();
+                musicController.show(0);
             }
         });
 
@@ -205,7 +208,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements IPlaySongL
         if(this.musicService != null) {
             this.musicService.setSong(songIndex);
             this.musicService.playSong();
-            this.setupSongDisplay(songIndex);
+            this.onSongUpdated(songIndex);
             this.setupMusicController();
         }
         else {
@@ -213,7 +216,8 @@ public class MusicPlayerActivity extends AppCompatActivity implements IPlaySongL
         }
     }
 
-    private void setupSongDisplay(int songIndex) {
+    @Override
+    public void onSongUpdated(int songIndex) {
         SongModel song = this.songList.get(songIndex);
         this.titleView.setText(song.getSongName());
         this.artistView.setText(song.getArtist());
@@ -226,7 +230,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements IPlaySongL
                 MusicBinder binder = (MusicBinder) service;
 
                 MusicPlayerActivity.this.musicService = binder.getService();
-                MusicPlayerActivity.this.musicService.setPlaylist(MusicPlayerActivity.this.songList);
+                MusicPlayerActivity.this.musicService.setPlaylist(MusicPlayerActivity.this.songList, MusicPlayerActivity.this);
                 MusicPlayerActivity.this.musicBound = true;
             }
 

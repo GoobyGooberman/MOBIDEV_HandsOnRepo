@@ -6,4 +6,5 @@ package com.neildg.mobidev_handsonrepo.activity_musicplayer;
 
 public interface IPlaySongListener {
     void onPlayRequested(int songIndex);
+    void onSongUpdated(int songIndex);
 }
