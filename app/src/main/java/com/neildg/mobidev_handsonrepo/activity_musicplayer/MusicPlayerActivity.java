@@ -65,7 +65,12 @@ public class MusicPlayerActivity extends AppCompatActivity implements IPlaySongL
     protected void onDestroy() {
         this.stopService(this.playIntent);
         this.unbindService(this.musicConnection); //IMPORTANT! DO NOT FORGET
+
+        //IMPORTANT FOR RESETTING THE MUSIC PLAYER CONTROL
+        this.musicController.hide();
         this.musicService = null;
+        this.musicController = null;
+        this.musicPlayerControl = null;
         Log.d(TAG, "Music service successfully stopped!");
         super.onDestroy();
 
@@ -126,6 +131,10 @@ public class MusicPlayerActivity extends AppCompatActivity implements IPlaySongL
         }
     }
 
+    public boolean isMusicBound() {
+        return this.musicBound;
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -148,11 +157,11 @@ public class MusicPlayerActivity extends AppCompatActivity implements IPlaySongL
     }
 
     private void setupUI() {
-        /*this.titleView = this.findViewById(R.id.song_title_txt);
+        this.titleView = this.findViewById(R.id.song_title_txt);
         this.artistView = this.findViewById(R.id.artist_txt);
 
         this.titleView.setText("Select a song");
-        this.artistView.setText("");*/
+        this.artistView.setText("");
 
         this.songView = this.findViewById(R.id.music_view);
         this.songAdapter = new SongAdapter(this.songList, this);
@@ -161,8 +170,17 @@ public class MusicPlayerActivity extends AppCompatActivity implements IPlaySongL
         this.songView.setItemAnimator(new DefaultItemAnimator());
         this.songView.setAdapter(this.songAdapter);
 
+    }
+
+    private void setupMusicController() {
         //setup the music controller
-        this.musicPlayerControl = new MusicPlayerControl(this);
+        if(this.musicPlayerControl != null) {
+            this.musicController.hide();
+            this.musicController = null;
+            this.musicPlayerControl = null;
+        }
+        
+        this.musicPlayerControl = new MusicPlayerControl(this, this.musicService);
         this.musicController = new MusicController(this);
         this.musicController.setPrevNextListeners(new View.OnClickListener() {
             @Override
@@ -179,7 +197,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements IPlaySongL
         this.musicController.setMediaPlayer(this.musicPlayerControl);
         this.musicController.setAnchorView(this.findViewById(R.id.media_control_layout));
         this.musicController.setEnabled(true);
-        this.musicController.show();
+        this.musicController.show(0); //0 means screen will be persistent
     }
 
     @Override
@@ -187,11 +205,18 @@ public class MusicPlayerActivity extends AppCompatActivity implements IPlaySongL
         if(this.musicService != null) {
             this.musicService.setSong(songIndex);
             this.musicService.playSong();
-            Log.d(TAG, "Play requested. Song title: " +this.songList.get(songIndex).getSongName());
+            this.setupSongDisplay(songIndex);
+            this.setupMusicController();
         }
         else {
             Log.e(TAG, "Music service is not properly setup!");
         }
+    }
+
+    private void setupSongDisplay(int songIndex) {
+        SongModel song = this.songList.get(songIndex);
+        this.titleView.setText(song.getSongName());
+        this.artistView.setText(song.getArtist());
     }
 
     private void setupMusicService() {
@@ -207,7 +232,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements IPlaySongL
 
             @Override
             public void onServiceDisconnected(ComponentName name) {
-                MusicPlayerActivity.this.musicBound = true;
+                MusicPlayerActivity.this.musicBound = false;
             }
         };
     }

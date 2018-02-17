@@ -75,6 +75,30 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         this.currentSongIndex = index;
     }
 
+    public boolean isPlaying() {
+        return this.mediaPlayer.isPlaying();
+    }
+
+    public int getCurrentSongDuration() {
+        return this.mediaPlayer.getDuration();
+    }
+
+    public int getCurrentSongPosition() {
+        return this.mediaPlayer.getCurrentPosition();
+    }
+
+    public void resume() {
+        this.mediaPlayer.start();
+    }
+
+    public void pause() {
+        this.mediaPlayer.pause();
+    }
+
+    public void seek(int newSec) {
+        this.mediaPlayer.seekTo(newSec);
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
