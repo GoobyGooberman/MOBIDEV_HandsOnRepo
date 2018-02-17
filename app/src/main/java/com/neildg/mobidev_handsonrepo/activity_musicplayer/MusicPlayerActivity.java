@@ -1,6 +1,7 @@
 package com.neildg.mobidev_handsonrepo.activity_musicplayer;
 
 import android.Manifest;
+import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -26,6 +27,7 @@ import android.widget.TextView;
 import com.neildg.mobidev_handsonrepo.R;
 import com.neildg.mobidev_handsonrepo.activity_musicplayer.music_playback.MusicBinder;
 import com.neildg.mobidev_handsonrepo.activity_musicplayer.music_playback.MusicController;
+import com.neildg.mobidev_handsonrepo.activity_musicplayer.music_playback.MusicPlayNotification;
 import com.neildg.mobidev_handsonrepo.activity_musicplayer.music_playback.MusicPlayerControl;
 import com.neildg.mobidev_handsonrepo.activity_musicplayer.music_playback.MusicService;
 
@@ -35,6 +37,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements IPlaySongL
     private final static String TAG = "MusicPlayerActivity";
 
     private final static int PERMISSION_READ_EXTERNAL_STORAGE = 1;
+    private final static int MUSIC_PLAY_NOTIFY_ID = 1;
 
     private ArrayList<SongModel> songList = new ArrayList<>();
     private RecyclerView songView;
@@ -62,6 +65,11 @@ public class MusicPlayerActivity extends AppCompatActivity implements IPlaySongL
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
     protected void onDestroy() {
         this.stopService(this.playIntent);
         this.unbindService(this.musicConnection); //IMPORTANT! DO NOT FORGET
@@ -69,6 +77,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements IPlaySongL
         //IMPORTANT FOR RESETTING THE MUSIC PLAYER CONTROL
         this.musicController.markForCleaning(true);
         this.musicController.hide();
+        this.musicService.stopForeground(true);
         this.musicService = null;
         this.musicController = null;
         this.musicPlayerControl = null;
@@ -101,7 +110,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements IPlaySongL
     private void loadSongsFromStorage() {
         ContentResolver musicResolver = this.getContentResolver();
         Uri musicUri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-        Cursor musicCursor = musicResolver.query(musicUri, null, null, null, "title ASC");
+        Cursor musicCursor = musicResolver.query(musicUri, null, null, null, null);
 
         if(musicCursor!=null && musicCursor.moveToFirst()){
             //get columns
@@ -121,8 +130,6 @@ public class MusicPlayerActivity extends AppCompatActivity implements IPlaySongL
             }
             while (musicCursor.moveToNext());
         }
-
-        this.checkSongs();
     }
 
     private void checkSongs() {
@@ -144,7 +151,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements IPlaySongL
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                Log.d(TAG, "Permissiong granted!");
+                Log.d(TAG, "Permission granted!");
                 // permission was granted, yay!
                 this.loadSongsFromStorage();
                 this.setupUI();
@@ -208,8 +215,9 @@ public class MusicPlayerActivity extends AppCompatActivity implements IPlaySongL
         if(this.musicService != null) {
             this.musicService.setSong(songIndex);
             this.musicService.playSong();
-            this.onSongUpdated(songIndex);
             this.setupMusicController();
+
+            this.startForegroundNotif(songIndex);
         }
         else {
             Log.e(TAG, "Music service is not properly setup!");
@@ -223,6 +231,20 @@ public class MusicPlayerActivity extends AppCompatActivity implements IPlaySongL
         this.artistView.setText(song.getArtist());
     }
 
+    private void startForegroundNotif(int songIndex) {
+        SongModel song = this.songList.get(songIndex);
+        String songName = song.getSongName();
+        String songArtist = song.getArtist();
+        Intent notIntent = new Intent(this, MusicPlayerActivity.class);
+        notIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendInt = PendingIntent.getActivity(this, 0,
+                notIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        MusicPlayNotification playNotification = new MusicPlayNotification();
+
+        this.musicService.startForeground(MUSIC_PLAY_NOTIFY_ID, playNotification.buildNotification(this, songName, songArtist, pendInt));
+    }
+
     private void setupMusicService() {
         this.musicConnection = new ServiceConnection() {
             @Override
@@ -233,7 +255,6 @@ public class MusicPlayerActivity extends AppCompatActivity implements IPlaySongL
                 MusicPlayerActivity.this.musicService.setPlaylist(MusicPlayerActivity.this.songList, MusicPlayerActivity.this);
                 MusicPlayerActivity.this.musicBound = true;
             }
-
             @Override
             public void onServiceDisconnected(ComponentName name) {
                 MusicPlayerActivity.this.musicBound = false;

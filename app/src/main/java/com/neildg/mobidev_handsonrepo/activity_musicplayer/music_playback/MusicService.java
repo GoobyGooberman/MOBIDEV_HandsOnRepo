@@ -1,5 +1,7 @@
 package com.neildg.mobidev_handsonrepo.activity_musicplayer.music_playback;
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ContentUris;
 import android.content.Intent;
@@ -9,7 +11,10 @@ import android.net.Uri;
 import android.os.IBinder;
 import android.os.PowerManager;
 
+import com.neildg.mobidev_handsonrepo.MainActivity;
+import com.neildg.mobidev_handsonrepo.R;
 import com.neildg.mobidev_handsonrepo.activity_musicplayer.IPlaySongListener;
+import com.neildg.mobidev_handsonrepo.activity_musicplayer.MusicPlayerActivity;
 import com.neildg.mobidev_handsonrepo.activity_musicplayer.SongModel;
 
 import java.io.IOException;
