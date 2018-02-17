@@ -13,8 +13,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.neildg.mobidev_handsonrepo.R;
-import com.neildg.mobidev_handsonrepo.activity_restaurant.RestaurantActivity;
-import com.neildg.mobidev_handsonrepo.activity_restaurant.S14_RestaurantAdapter;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.neildg.mobidev_handsonrepo.activity_restaurant;
+package com.neildg.mobidev_handsonrepo.activity_restaurant_workspace;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;

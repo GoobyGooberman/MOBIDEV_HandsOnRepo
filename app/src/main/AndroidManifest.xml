@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.neildg.mobidev_handsonrepo">
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -22,10 +26,36 @@
         <activity android:name=".activity_lifecycle.LifecycleActivity" />
         <activity android:name=".activity_lifecycle.LifecycleActivityWorkspace" />
         <activity android:name=".activity_restaurant.AddRestaurantActivity" />
-        <activity android:name=".activity_restaurant.RestaurantActivity" />
-        <activity android:name=".activity_restaurant.ChooseRestoWorkActivity" />
-        <activity android:name=".activity_restaurant_workspace.S14_RestaurantActivity" />
-        <activity android:name=".activity_restaurant_workspace.S16_RestaurantActivity" />
+        <activity
+            android:name=".activity_restaurant.RestaurantActivity"
+            android:label="Restaurant Randomizer" />
+        <activity
+            android:name=".activity_restaurant.ChooseRestoWorkActivity"
+            android:label="Choose Resto Work" />
+        <activity
+            android:name=".activity_restaurant_workspace.S14_RestaurantActivity"
+            android:label="S14 - Restaurant Randomizer" />
+        <activity
+            android:name=".activity_restaurant_workspace.S16_RestaurantActivity"
+            android:label="S16 - Restaurant Randomizer" />
+        <activity
+            android:name=".activity_musicplayer.MusicPlayerActivity"
+            android:label="Music Player"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".activity_musicplayer_workspace.S14_MusicPlayerActivity"
+            android:label="S14 - Music Player" />
+        <activity
+            android:name=".activity_musicplayer_workspace.S16_MusicPlayerActivity"
+            android:label="S16 - Music Player" />
+        <activity
+            android:name=".activity_musicplayer.ChooseMusicActivity"
+            android:label="Choose Music Player Work" />
+
+        <service
+            android:name=".activity_musicplayer.music_playback.MusicService"
+            android:enabled="true"
+            android:exported="false" />
     </application>
 
 </manifest>
