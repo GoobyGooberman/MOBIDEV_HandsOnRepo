@@ -1,5 +1,6 @@
 package com.neildg.mobidev_handsonrepo.activity_restaurant_workspace;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -85,6 +86,15 @@ public class S16_RestaurantActivity extends AppCompatActivity {
                 S16_RestaurantActivity.this.showSnackbarMessage(selectedResto.getName());
             }
         });
+
+        Button addBtn = this.findViewById(R.id.s16_add_btn);
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent addIntent = new Intent(S16_RestaurantActivity.this, S16_AddRestaurantActivity.class);
+                startActivityForResult(addIntent, S16_AddRestaurantActivity.ADD_REQUEST_CODE);
+            }
+        });
     }
 
     private S16_RestaurantModel randomizeRestaurants() {
@@ -109,5 +119,29 @@ public class S16_RestaurantActivity extends AppCompatActivity {
         snackbarActionTextView.setTypeface(snackbarActionTextView.getTypeface(), Typeface.BOLD);
 
         snackbar.show();
+    }
+
+    private void addRestaurant(String name, String desc, int weight) {
+        S16_RestaurantModel restaurantModel = new S16_RestaurantModel(name, weight, desc);
+        this.restoList.add(restaurantModel);
+
+        this.rAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == S16_AddRestaurantActivity.ADD_REQUEST_CODE) {
+            //handle data back in view.
+            if(data != null) {
+                //retrieve data back
+                String name = data.getStringExtra(S16_AddRestaurantActivity.NAME_KEY);
+                String desc = data.getStringExtra(S16_AddRestaurantActivity.DESC_KEY);
+                int weight = data.getIntExtra(S16_AddRestaurantActivity.WEIGHT_KEY, 0);
+
+                this.addRestaurant(name, desc, weight);
+            }
+        }
     }
 }

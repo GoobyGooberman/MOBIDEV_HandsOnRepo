@@ -57,7 +57,8 @@
             android:enabled="true"
             android:exported="false" />
 
-        <activity android:name=".activity_restaurant_workspace.S14_AddRestaurantActivity"></activity>
+        <activity android:name=".activity_restaurant_workspace.S14_AddRestaurantActivity" />
+        <activity android:name=".activity_restaurant_workspace.S16_AddRestaurantActivity"></activity>
     </application>
 
 </manifest>
