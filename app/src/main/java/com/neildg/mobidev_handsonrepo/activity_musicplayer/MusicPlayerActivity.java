@@ -74,14 +74,17 @@ public class MusicPlayerActivity extends AppCompatActivity implements IPlaySongL
         this.stopService(this.playIntent);
         this.unbindService(this.musicConnection); //IMPORTANT! DO NOT FORGET
 
-        //IMPORTANT FOR RESETTING THE MUSIC PLAYER CONTROL
-        this.musicController.markForCleaning(true);
-        this.musicController.hide();
-        this.musicService.stopForeground(true);
-        this.musicService = null;
-        this.musicController = null;
-        this.musicPlayerControl = null;
-        Log.d(TAG, "Music service successfully stopped!");
+        if(this.musicController != null) {
+            //IMPORTANT FOR RESETTING THE MUSIC PLAYER CONTROL
+            this.musicController.markForCleaning(true);
+            this.musicController.hide();
+            this.musicService.stopForeground(true);
+            this.musicService = null;
+            this.musicController = null;
+            this.musicPlayerControl = null;
+            Log.d(TAG, "Music service successfully stopped!");
+        }
+
         super.onDestroy();
 
     }
