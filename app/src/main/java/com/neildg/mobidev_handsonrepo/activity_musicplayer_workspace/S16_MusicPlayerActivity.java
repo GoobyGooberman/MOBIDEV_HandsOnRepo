@@ -10,6 +10,6 @@ public class S16_MusicPlayerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_s16__music_player);
+        setContentView(R.layout.activity_s16_music_player);
     }
 }
