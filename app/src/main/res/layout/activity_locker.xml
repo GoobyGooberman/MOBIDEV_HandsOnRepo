@@ -107,7 +107,8 @@
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="103dp" />
+            tools:layout_editor_absoluteY="103dp"
+            tools:listitem="@layout/locker_item" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/lock_view_2"
@@ -116,7 +117,8 @@
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="103dp"></android.support.v7.widget.RecyclerView>
+            tools:layout_editor_absoluteY="103dp"
+            tools:listitem="@layout/locker_item"></android.support.v7.widget.RecyclerView>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/lock_view_3"
@@ -125,7 +127,8 @@
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="103dp"></android.support.v7.widget.RecyclerView>
+            tools:layout_editor_absoluteY="103dp"
+            tools:listitem="@layout/locker_item"></android.support.v7.widget.RecyclerView>
 
         <TextView
             android:id="@+id/textView13"

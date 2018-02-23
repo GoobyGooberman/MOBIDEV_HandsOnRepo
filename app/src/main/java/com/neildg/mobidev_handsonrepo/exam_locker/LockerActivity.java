@@ -43,7 +43,15 @@ public class LockerActivity extends AppCompatActivity {
 
     private void setupButtons() {
         Button addBtn = this.findViewById(R.id.add_btn);
-        addBtn.setEnabled(false);
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String a = lockerViewHandlers[0].getVisibleItem().getNumberString();
+                String b = lockerViewHandlers[1].getVisibleItem().getNumberString();
+                String c = lockerViewHandlers[2].getVisibleItem().getNumberString();
+                addKey(a,b,c);
+            }
+        });
 
         Button enterBtn = this.findViewById(R.id.enter_btn);
 
@@ -67,6 +75,12 @@ public class LockerActivity extends AppCompatActivity {
                 lockerViewHandlers[2].shuffle();
             }
         });
+    }
+
+    private void addKey(String a, String b, String c) {
+        String combination = a + b + c;
+
+        this.acceptedCombinations.add(combination);
     }
 
     private void verifyAndUnlock(String a, String b, String c) {
