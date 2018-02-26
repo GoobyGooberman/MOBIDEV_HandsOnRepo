@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.neildg.mobidev_handsonrepo.activity_firebase.LoginActivity;
 import com.neildg.mobidev_handsonrepo.activity_lifecycle.LifecycleActivity;
 import com.neildg.mobidev_handsonrepo.activity_lifecycle.LifecycleActivityWorkspace;
 import com.neildg.mobidev_handsonrepo.activity_musicplayer.ChooseMusicActivity;
@@ -103,6 +104,11 @@ public class MainActivity extends AppCompatActivity
 
         if(id == R.id.nav_music_player) {
             Intent i = new Intent(MainActivity.this, ChooseMusicActivity.class);
+            this.startActivity(i);
+        }
+
+        if(id == R.id.nav_firebase) {
+            Intent i = new Intent(MainActivity.this, LoginActivity.class);
             this.startActivity(i);
         }
 

@@ -22,6 +22,11 @@
             android:id="@+id/nav_music_player"
             android:icon="@drawable/ic_music_player"
             android:title="Music Player" />
+        <item
+            android:id="@+id/nav_firebase"
+            android:icon="@drawable/ic_firebase_cloud"
+            android:title="Firebase Demo" />
+
     </group>
 
 </menu>
