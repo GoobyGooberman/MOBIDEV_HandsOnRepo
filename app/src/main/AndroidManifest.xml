@@ -58,11 +58,12 @@
             android:exported="false" />
 
         <activity android:name=".activity_restaurant_workspace.S14_AddRestaurantActivity" />
-        <activity android:name=".activity_restaurant_workspace.S16_AddRestaurantActivity"></activity>
+        <activity android:name=".activity_restaurant_workspace.S16_AddRestaurantActivity" />
         <activity
             android:name=".activity_firebase.LoginActivity"
             android:label="@string/title_activity_login" />
-        <activity android:name=".activity_firebase.LoginSuccessActivity"></activity>
+        <activity android:name=".activity_firebase.LoginSuccessActivity" />
+        <activity android:name=".activity_firebase.SignUpActivity"></activity>
     </application>
 
 </manifest>
