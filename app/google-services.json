@@ -1,0 +1,45 @@
+/*
+MOVE THIS TO your <PROJECT>/app directory!!!
+*/
+{
+  "project_info": {
+    "project_number": "8364334541",
+    "firebase_url": "https://mobidevfirebasetest.firebaseio.com",
+    "project_id": "mobidevfirebasetest",
+    "storage_bucket": "mobidevfirebasetest.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8364334541:android:b9097188afa3bdad",
+        "android_client_info": {
+          "package_name": "com.neildg.mobidev_handsonrepo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "8364334541-vs8uf6usnrlqjsu6kigjkdfg15680oas.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVM9-nIH8Z8oPrM5BB4151Dib2bgYDKGU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
