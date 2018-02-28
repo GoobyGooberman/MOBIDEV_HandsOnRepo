@@ -71,13 +71,6 @@
                 android:text="SIGN IN"
                 android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/register_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="REGISTER AN ACCOUNT"
-                android:textStyle="bold" />
-
             <TextView
                 android:id="@+id/textView18"
                 android:layout_width="match_parent"
@@ -86,6 +79,26 @@
                 android:padding="5dp"
                 android:text="Not a member yet?"
                 android:textAlignment="center" />
+
+            <Button
+                android:id="@+id/register_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="REGISTER AN ACCOUNT"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/error_txt_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"
+                android:text="Login failed!"
+                android:textAlignment="center"
+                android:textColor="?attr/colorError"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
 
         </LinearLayout>
     </ScrollView>

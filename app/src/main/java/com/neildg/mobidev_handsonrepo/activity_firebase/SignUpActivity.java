@@ -1,11 +1,15 @@
 package com.neildg.mobidev_handsonrepo.activity_firebase;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,6 +38,9 @@ public class SignUpActivity extends AppCompatActivity {
     private void setupUI() {
         final View signupProgressBar = this.findViewById(R.id.signup_progress_layout);
         signupProgressBar.setVisibility(View.GONE);
+
+        final Button emailBtn = this.findViewById(R.id.email_intent_btn);
+        emailBtn.setVisibility(View.GONE);
     }
 
     private void setupBtns() {
@@ -50,6 +57,17 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        Button emailBtn = this.findViewById(R.id.email_intent_btn);
+        emailBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent emailIntent = new Intent(Intent.ACTION_VIEW);
+                emailIntent.addCategory(Intent.CATEGORY_APP_EMAIL);
+                emailIntent.setType("message/rfc822");
+                startActivity(Intent.createChooser(emailIntent, "Choose email app"));
             }
         });
     }
@@ -127,6 +145,11 @@ public class SignUpActivity extends AppCompatActivity {
         final TextView registrationView = this.findViewById(R.id.registration_txt_view);
         registrationView.setVisibility(View.GONE);
 
+        final Button emailBtn = this.findViewById(R.id.email_intent_btn);
+
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(this.findViewById(R.id.confirm_password).getWindowToken(), 0);
+
         Task<AuthResult> authenResult = FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password);
         authenResult.addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -136,8 +159,12 @@ public class SignUpActivity extends AppCompatActivity {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "createUserWithEmail:success");
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    registrationView.setText("Registration success! New account created with email: " +user.getEmail());
+                    registrationView.setText("Registration success! New account created with email: " +user.getEmail()+ ". Please check your email for verification." +
+                            "You would need to verify your email before logging in.");
+                    user.sendEmailVerification();
                     registrationView.setVisibility(View.VISIBLE);
+                    emailBtn.setVisibility(View.VISIBLE);
+
 
                 } else {
                     // If sign in fails, display a message to the user.
