@@ -6,7 +6,7 @@ package com.neildg.mobidev_handsonrepo.activity_musicplayer;
  */
 
 public class SongModel {
-    private final static String TAG = "SongModel";
+    private final static String TAG = "S14_SongModel";
 
     private long songID;
     private String songName;
