@@ -62,7 +62,12 @@
             android:name=".activity_firebase.LoginActivity"
             android:label="@string/title_activity_login" />
         <activity android:name=".activity_firebase.LoginSuccessActivity" />
-        <activity android:name=".activity_firebase.SignUpActivity"></activity>
+        <activity android:name=".activity_firebase.SignUpActivity" />
+
+        <service
+            android:name=".activity_musicplayer_workspace.S14_MusicService"
+            android:enabled="true"
+            android:exported="false"></service>
     </application>
 
 </manifest>
