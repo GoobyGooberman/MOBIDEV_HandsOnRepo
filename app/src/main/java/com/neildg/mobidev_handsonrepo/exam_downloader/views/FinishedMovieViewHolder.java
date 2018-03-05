@@ -2,28 +2,29 @@ package com.neildg.mobidev_handsonrepo.exam_downloader.views;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.neildg.mobidev_handsonrepo.R;
 
 /**
- * Created by delgallegon on 05/03/2018.
+ * Created by NeilDG on 3/5/2018.
  */
 
-public class MovieViewHolder extends RecyclerView.ViewHolder {
-    private final static String TAG = "MovieViewHolder";
+public class FinishedMovieViewHolder extends RecyclerView.ViewHolder {
+    private final static String TAG = "FinishedMovieViewHolder";
 
     private TextView movieTitleTxt;
     private TextView descText;
-    private ProgressBar progressBar;
+    private Button openBtn;
 
-    public MovieViewHolder(View view) {
+    public FinishedMovieViewHolder(View view) {
         super(view);
 
         this.movieTitleTxt = view.findViewById(R.id.movie_title_txt);
         this.descText = view.findViewById(R.id.desc_txt);
-        this.progressBar = view.findViewById(R.id.download_progress_bar);
+        this.openBtn = view.findViewById(R.id.open_btn);
     }
 
 
@@ -33,10 +34,5 @@ public class MovieViewHolder extends RecyclerView.ViewHolder {
 
     public TextView getDescText() {
         return descText;
-    }
-
-    public void setProgressBar(int currentValue, int maxValue) {
-        this.progressBar.setMax(maxValue);
-        this.progressBar.setProgress(currentValue);
     }
 }
