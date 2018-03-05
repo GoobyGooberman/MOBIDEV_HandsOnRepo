@@ -19,6 +19,7 @@ import com.neildg.mobidev_handsonrepo.activity_lifecycle.LifecycleActivity;
 import com.neildg.mobidev_handsonrepo.activity_lifecycle.LifecycleActivityWorkspace;
 import com.neildg.mobidev_handsonrepo.activity_musicplayer.ChooseMusicActivity;
 import com.neildg.mobidev_handsonrepo.activity_restaurant.ChooseRestoWorkActivity;
+import com.neildg.mobidev_handsonrepo.exam_locker.LockerActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -109,6 +110,11 @@ public class MainActivity extends AppCompatActivity
 
         if(id == R.id.nav_firebase) {
             Intent i = new Intent(MainActivity.this, LoginActivity.class);
+            this.startActivity(i);
+        }
+
+        if(id == R.id.nav_exam_1) {
+            Intent i = new Intent(MainActivity.this, LockerActivity.class);
             this.startActivity(i);
         }
 

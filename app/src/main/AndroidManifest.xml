@@ -68,6 +68,8 @@
             android:name=".activity_musicplayer_workspace.S14_MusicService"
             android:enabled="true"
             android:exported="false"></service>
+        <activity android:name=".exam_locker.LockerActivity" />
+        <activity android:name=".exam_locker.UnlockActivity"></activity>
     </application>
 
 </manifest>
