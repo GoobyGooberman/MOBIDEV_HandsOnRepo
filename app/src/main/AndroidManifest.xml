@@ -67,6 +67,10 @@
         <service
             android:name=".activity_musicplayer_workspace.S14_MusicService"
             android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name=".activity_musicplayer_workspace.S16_MusicService"
+            android:enabled="true"
             android:exported="false"></service>
     </application>
 

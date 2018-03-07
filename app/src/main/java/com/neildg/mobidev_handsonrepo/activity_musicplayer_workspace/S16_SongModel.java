@@ -1,15 +1,15 @@
-package com.neildg.mobidev_handsonrepo.activity_musicplayer.music_playback;
+package com.neildg.mobidev_handsonrepo.activity_musicplayer_workspace;
 
 /**
  * Created by Administrator on 2/28/2018.
  */
 
-public class Song {
+public class S16_SongModel {
     private String artist;
     private String title;
     private long id;
 
-    public Song(String artist, String title, long id){
+    public S16_SongModel(String artist, String title, long id){
         this.artist = artist;
         this.title = title;
         this.id = id;

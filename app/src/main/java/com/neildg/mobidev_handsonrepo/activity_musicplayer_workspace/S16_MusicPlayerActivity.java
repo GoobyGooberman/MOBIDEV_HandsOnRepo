@@ -1,11 +1,15 @@
 package com.neildg.mobidev_handsonrepo.activity_musicplayer_workspace;
 
 import android.Manifest;
-import android.app.Activity;
+import android.content.ComponentName;
 import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -16,8 +20,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.neildg.mobidev_handsonrepo.R;
-import com.neildg.mobidev_handsonrepo.activity_musicplayer.SongModel;
-import com.neildg.mobidev_handsonrepo.activity_musicplayer.music_playback.Song;
+import com.neildg.mobidev_handsonrepo.activity_musicplayer.S16_MusicBinder;
 import com.neildg.mobidev_handsonrepo.activity_musicplayer.music_playback.SongAdapter;
 
 import java.util.ArrayList;
@@ -28,10 +31,15 @@ public class S16_MusicPlayerActivity extends AppCompatActivity {
 
     private final static int EXTERNAL_STORAGE_REQUEST_CODE = 1;
 
-    private List<Song> songList = new ArrayList<>();
+    private ArrayList<S16_SongModel> songList = new ArrayList<>();
     private RecyclerView recyclerView;
     private SongAdapter songAdapter;
 
+    private ServiceConnection musicConnection;
+    private S16_MusicService musicService;
+    private Intent musicIntent;
+
+    private boolean musicBound = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +55,16 @@ public class S16_MusicPlayerActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(songAdapter);
 
+        this.setupMusicService();
+        this.startMusicService();
 
+    }
 
+    @Override
+    protected void onDestroy() {
+        this.stopService(this.musicIntent);
+        this.unbindService(this.musicConnection);
+        super.onDestroy();
     }
 
     private void requestPermissions() {
@@ -76,9 +92,9 @@ public class S16_MusicPlayerActivity extends AppCompatActivity {
                 long thisId = musicCursor.getLong(idColumn);
                 String title = musicCursor.getString(titleColumn);
                 String artist = musicCursor.getString(artistColumn);
-                songList.add(new Song(artist,title,thisId));
+                songList.add(new S16_SongModel(artist,title,thisId));
 
-                Log.d(TAG, "ID: " +thisId+ " Song: " +title+ " Arist: " +artist);
+                Log.d(TAG, "ID: " +thisId+ " S16_SongModel: " +title+ " Arist: " +artist);
             }
             while (musicCursor.moveToNext());
             this.songAdapter.notifyDataSetChanged();
@@ -101,6 +117,34 @@ public class S16_MusicPlayerActivity extends AppCompatActivity {
             else {
                 this.finish();
             }
+        }
+    }
+
+    private void setupMusicService() {
+        Log.d(TAG, "Setup music service!");
+        this.musicConnection = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                S16_MusicBinder musicBinder = (S16_MusicBinder) service;
+                musicService = musicBinder.getMusicService();
+                musicService.setPlayList(songList);
+                musicBound = true;
+                Log.d(TAG, "Music service connected!");
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                musicBound = false;
+            }
+        };
+    }
+
+    private void startMusicService() {
+        if(musicIntent == null) {
+            this.musicIntent = new Intent(this, S16_MusicService.class);
+            this.bindService(this.musicIntent, this.musicConnection, Context.BIND_AUTO_CREATE);
+            this.startService(this.musicIntent);
+            Log.d(TAG, "Successfully started music service!");
         }
     }
 }

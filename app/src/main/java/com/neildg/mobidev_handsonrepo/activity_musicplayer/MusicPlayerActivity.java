@@ -138,7 +138,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements IPlaySongL
     private void checkSongs() {
         for(int i = 0; i < this.songList.size(); i++) {
             SongModel song = this.songList.get(i);
-            Log.d(TAG, "Song #" +i+ ": Title - " +song.getSongName()+ "  Artist - " +song.getArtist());
+            Log.d(TAG, "S16_SongModel #" +i+ ": Title - " +song.getSongName()+ "  Artist - " +song.getArtist());
         }
     }
 

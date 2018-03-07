@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.neildg.mobidev_handsonrepo.R;
+import com.neildg.mobidev_handsonrepo.activity_musicplayer_workspace.S16_SongModel;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
  */
 
 public class SongAdapter extends RecyclerView.Adapter<SongAdapter.myViewHolder> {
-    private List<Song> songlist;
+    private List<S16_SongModel> songlist;
 
     public class myViewHolder extends RecyclerView.ViewHolder{
 
@@ -28,7 +29,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.myViewHolder> 
             artist = (TextView)view.findViewById(R.id.artist);
         }
     }
-    public SongAdapter(List<Song> songlist){
+    public SongAdapter(List<S16_SongModel> songlist){
         this.songlist=songlist;
     }
 
@@ -41,7 +42,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.myViewHolder> 
 
     @Override
     public void onBindViewHolder(SongAdapter.myViewHolder holder, int position){
-        Song song = songlist.get(position);
+        S16_SongModel song = songlist.get(position);
         holder.artist.setText(song.getArtist());
         holder.title.setText(song.getTitle());
 
