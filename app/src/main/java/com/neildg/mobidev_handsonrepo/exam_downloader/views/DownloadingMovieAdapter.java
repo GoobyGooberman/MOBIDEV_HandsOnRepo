@@ -12,7 +12,7 @@ import java.util.List;
  * Created by NeilDG on 3/5/2018.
  */
 
-public class DownloadingMovieAdapter extends RecyclerView.Adapter<MovieViewHolder> {
+public class DownloadingMovieAdapter extends RecyclerView.Adapter<OngoingMovieViewHolder> {
     private final static String TAG = "MovieAdapter";
 
     private List<MovieModel> downloadingList;
@@ -22,13 +22,13 @@ public class DownloadingMovieAdapter extends RecyclerView.Adapter<MovieViewHolde
     }
 
     @Override
-    public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public OngoingMovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View viewInstance = LayoutInflater.from(parent.getContext()).inflate(R.layout.ongoing_download_item, parent, false);
-        return new MovieViewHolder(viewInstance);
+        return new OngoingMovieViewHolder(viewInstance);
     }
 
     @Override
-    public void onBindViewHolder(MovieViewHolder holder, int position) {
+    public void onBindViewHolder(OngoingMovieViewHolder holder, int position) {
         MovieModel movieModel = this.downloadingList.get(position);
         holder.getMovieTitleTxt().setText(movieModel.getName());
         holder.getDescText().setText(movieModel.getDescription());

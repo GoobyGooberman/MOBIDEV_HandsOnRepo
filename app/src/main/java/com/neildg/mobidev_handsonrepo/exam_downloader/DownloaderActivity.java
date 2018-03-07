@@ -1,10 +1,13 @@
 package com.neildg.mobidev_handsonrepo.exam_downloader;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
 
 import com.neildg.mobidev_handsonrepo.R;
 import com.neildg.mobidev_handsonrepo.activity_restaurant.RestaurantAdapter;
@@ -34,6 +37,18 @@ public class DownloaderActivity extends AppCompatActivity {
         this.generateDefaultData();
         this.setupDownloadingList();
         this.setupFinishedList();
+        this.setupBtns();
+    }
+
+    private void setupBtns() {
+        Button downloadListBtn = this.findViewById(R.id.download_btn);
+        downloadListBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(DownloaderActivity.this, MovieListActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
     private void generateDefaultData() {

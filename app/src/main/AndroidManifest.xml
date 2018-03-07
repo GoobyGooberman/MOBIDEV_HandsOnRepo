@@ -71,7 +71,8 @@
 
         <activity android:name=".exam_locker.LockerActivity" />
         <activity android:name=".exam_locker.UnlockActivity" />
-        <activity android:name=".exam_downloader.DownloaderActivity"></activity>
+        <activity android:name=".exam_downloader.DownloaderActivity" />
+        <activity android:name=".exam_downloader.MovieListActivity"></activity>
     </application>
 
 </manifest>

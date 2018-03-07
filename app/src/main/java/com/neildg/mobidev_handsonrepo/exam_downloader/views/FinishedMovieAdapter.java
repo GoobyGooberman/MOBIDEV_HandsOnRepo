@@ -32,7 +32,7 @@ public class FinishedMovieAdapter extends RecyclerView.Adapter<FinishedMovieView
     public void onBindViewHolder(FinishedMovieViewHolder holder, int position) {
         MovieModel movieModel = this.finishedList.get(position);
         holder.getMovieTitleTxt().setText(movieModel.getName());
-        holder.getDescText().setText(movieModel.getName());
+        holder.getDescText().setText(movieModel.getDescription());
     }
 
     @Override
