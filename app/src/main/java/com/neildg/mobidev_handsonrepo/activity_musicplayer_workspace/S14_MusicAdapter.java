@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.neildg.mobidev_handsonrepo.R;
+import com.neildg.mobidev_handsonrepo.activity_musicplayer.IPlaySongListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,15 +17,17 @@ import java.util.List;
 
 public class S14_MusicAdapter extends RecyclerView.Adapter<S14_MusicViewHolder> {
     private List<S14_SongModel> songList;
+    private IPlaySongListener playSongListener;
 
-    public S14_MusicAdapter(ArrayList<S14_SongModel> songList) {
+    public S14_MusicAdapter(ArrayList<S14_SongModel> songList, IPlaySongListener playSongListener) {
         this.songList = songList;
+        this.playSongListener = playSongListener;
     }
 
     @Override
     public S14_MusicViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.s14_song_item_layout, parent, false);
-        return new S14_MusicViewHolder(view);
+        return new S14_MusicViewHolder(view, this.playSongListener);
     }
 
     @Override

@@ -22,12 +22,13 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.neildg.mobidev_handsonrepo.R;
+import com.neildg.mobidev_handsonrepo.activity_musicplayer.IPlaySongListener;
 import com.neildg.mobidev_handsonrepo.activity_musicplayer.MusicPlayerActivity;
 import com.neildg.mobidev_handsonrepo.activity_musicplayer.music_playback.MusicService;
 
 import java.util.ArrayList;
 
-public class S14_MusicPlayerActivity extends AppCompatActivity {
+public class S14_MusicPlayerActivity extends AppCompatActivity implements IPlaySongListener {
     private final static String TAG = "MusicPlayerActivity";
     private final static int PERMISSION_READ_EXTERNAL_STORAGE = 1;
 
@@ -39,7 +40,6 @@ public class S14_MusicPlayerActivity extends AppCompatActivity {
 
     private ServiceConnection musicConnection;
     private S14_MusicService musicService;
-    private S14_MusicBinder musicBinder;
     private Intent playIntent;
     private boolean musicBound = false;
 
@@ -90,7 +90,7 @@ public class S14_MusicPlayerActivity extends AppCompatActivity {
                 long thisId = musicCursor.getLong(idColumn);
                 String thisTitle = musicCursor.getString(titleColumn);
                 String thisArtist = musicCursor.getString(artistColumn);
-                songList.add(new S14_SongModel(thisTitle, thisArtist));
+                songList.add(new S14_SongModel(thisTitle, thisArtist, thisId));
                 //Log.d(TAG, "Name: " +thisTitle+ " Artist: " +thisArtist);
             }
             while (musicCursor.moveToNext());
@@ -122,7 +122,7 @@ public class S14_MusicPlayerActivity extends AppCompatActivity {
         this.artist = this.findViewById(R.id.artist_name_text);
 
         this.recyclerView = this.findViewById(R.id.music_recycler_view);
-        this.musicAdapter = new S14_MusicAdapter(this.songList);
+        this.musicAdapter = new S14_MusicAdapter(this.songList, this);
         RecyclerView.LayoutManager recyclerLayout = new LinearLayoutManager(this);
         this.recyclerView.setLayoutManager(recyclerLayout);
         this.recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -156,5 +156,23 @@ public class S14_MusicPlayerActivity extends AppCompatActivity {
             this.startService(this.playIntent);
             Log.d(TAG, "Successfully started music service");
         }
+    }
+
+    @Override
+    public void onPlayRequested(int songIndex) {
+        //REQUEST TO PLAY A SONG IN OUR MUSIC SERVICE
+        if(this.musicService != null) {
+            Log.d(TAG, "Music song requested: " +songIndex);
+            this.musicService.setSong(songIndex);
+            this.musicService.playSong();
+        }
+        else {
+            Log.d(TAG, "Music service is not properly setup!");
+        }
+    }
+
+    @Override
+    public void onSongUpdated(int songIndex) {
+
     }
 }
