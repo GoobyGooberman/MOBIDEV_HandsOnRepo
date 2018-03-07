@@ -14,7 +14,7 @@ import java.util.List;
  */
 
 public class SongAdapter extends RecyclerView.Adapter<SongViewHolder> {
-    private final static String TAG = "SongAdapter";
+    private final static String TAG = "S16_SongAdapter";
 
     private List<SongModel> songModelList;
     private IPlaySongListener songListener;

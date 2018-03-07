@@ -18,22 +18,21 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.neildg.mobidev_handsonrepo.R;
-import com.neildg.mobidev_handsonrepo.activity_musicplayer.S16_MusicBinder;
-import com.neildg.mobidev_handsonrepo.activity_musicplayer.music_playback.SongAdapter;
+import com.neildg.mobidev_handsonrepo.activity_musicplayer.IPlaySongListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class S16_MusicPlayerActivity extends AppCompatActivity {
+public class S16_MusicPlayerActivity extends AppCompatActivity implements IPlaySongListener{
     private final static String TAG = "MusicPlayerActivity";
 
     private final static int EXTERNAL_STORAGE_REQUEST_CODE = 1;
 
     private ArrayList<S16_SongModel> songList = new ArrayList<>();
     private RecyclerView recyclerView;
-    private SongAdapter songAdapter;
+    private S16_SongAdapter songAdapter;
 
     private ServiceConnection musicConnection;
     private S16_MusicService musicService;
@@ -49,7 +48,7 @@ public class S16_MusicPlayerActivity extends AppCompatActivity {
         this.requestPermissions();
         recyclerView = (RecyclerView)findViewById(R.id.S16MusicRecyclerView);
 
-        songAdapter= new SongAdapter(songList);
+        songAdapter= new S16_SongAdapter(songList, this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -127,7 +126,7 @@ public class S16_MusicPlayerActivity extends AppCompatActivity {
             public void onServiceConnected(ComponentName name, IBinder service) {
                 S16_MusicBinder musicBinder = (S16_MusicBinder) service;
                 musicService = musicBinder.getMusicService();
-                musicService.setPlayList(songList);
+                musicService.setPlayList(songList, S16_MusicPlayerActivity.this);
                 musicBound = true;
                 Log.d(TAG, "Music service connected!");
             }
@@ -146,5 +145,27 @@ public class S16_MusicPlayerActivity extends AppCompatActivity {
             this.startService(this.musicIntent);
             Log.d(TAG, "Successfully started music service!");
         }
+    }
+
+    @Override
+    public void onPlayRequested(int songIndex) {
+        if(this.musicService != null) {
+            Log.d(TAG, "Song index to be played: " +songIndex);
+            this.musicService.setSong(songIndex);
+            this.musicService.playSong();
+        }
+        else {
+            Log.d(TAG, "Music player not setup!");
+        }
+
+    }
+
+    @Override
+    public void onSongUpdated(int songIndex) {
+        S16_SongModel current = this.songList.get(songIndex);
+        TextView song = this.findViewById(R.id.S16SongView);
+        TextView artist = this.findViewById(R.id.S16ArtistView);
+        song.setText(current.getTitle());
+        artist.setText(current.getArtist());
     }
 }

@@ -1,4 +1,4 @@
-package com.neildg.mobidev_handsonrepo.activity_musicplayer;
+package com.neildg.mobidev_handsonrepo.activity_musicplayer_workspace;
 
 import android.os.Binder;
 
