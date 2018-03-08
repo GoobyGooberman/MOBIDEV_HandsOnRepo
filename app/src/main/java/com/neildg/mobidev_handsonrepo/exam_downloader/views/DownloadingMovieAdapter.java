@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.neildg.mobidev_handsonrepo.R;
+import com.neildg.mobidev_handsonrepo.exam_downloader.models.MovieModel;
+
 import java.util.List;
 
 /**
@@ -15,9 +17,9 @@ import java.util.List;
 public class DownloadingMovieAdapter extends RecyclerView.Adapter<OngoingMovieViewHolder> {
     private final static String TAG = "MovieAdapter";
 
-    private List<MovieModel> downloadingList;
+    private MovieModel[] downloadingList;
 
-    public DownloadingMovieAdapter(List<MovieModel> downloadingList) {
+    public DownloadingMovieAdapter(MovieModel[] downloadingList) {
         this.downloadingList = downloadingList;
     }
 
@@ -29,13 +31,13 @@ public class DownloadingMovieAdapter extends RecyclerView.Adapter<OngoingMovieVi
 
     @Override
     public void onBindViewHolder(OngoingMovieViewHolder holder, int position) {
-        MovieModel movieModel = this.downloadingList.get(position);
+        MovieModel movieModel = this.downloadingList[position];
         holder.getMovieTitleTxt().setText(movieModel.getName());
         holder.getDescText().setText(movieModel.getDescription());
     }
 
     @Override
     public int getItemCount() {
-        return this.downloadingList.size();
+        return this.downloadingList.length;
     }
 }

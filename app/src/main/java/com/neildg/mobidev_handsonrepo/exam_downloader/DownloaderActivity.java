@@ -1,6 +1,7 @@
 package com.neildg.mobidev_handsonrepo.exam_downloader;
 
 import android.content.Intent;
+import android.graphics.Movie;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -10,18 +11,16 @@ import android.view.View;
 import android.widget.Button;
 
 import com.neildg.mobidev_handsonrepo.R;
-import com.neildg.mobidev_handsonrepo.activity_restaurant.RestaurantAdapter;
-import com.neildg.mobidev_handsonrepo.activity_restaurant.RestaurantModel;
+import com.neildg.mobidev_handsonrepo.exam_downloader.listeners.MovieDownloadPackage;
+import com.neildg.mobidev_handsonrepo.exam_downloader.models.MovieRepository;
 import com.neildg.mobidev_handsonrepo.exam_downloader.views.DownloadingMovieAdapter;
 import com.neildg.mobidev_handsonrepo.exam_downloader.views.FinishedMovieAdapter;
-import com.neildg.mobidev_handsonrepo.exam_downloader.views.MovieModel;
+import com.neildg.mobidev_handsonrepo.exam_downloader.models.MovieModel;
 
 import java.util.ArrayList;
 
 public class DownloaderActivity extends AppCompatActivity {
-
-    private ArrayList<MovieModel> downloadingList = new ArrayList<MovieModel>();
-    private ArrayList<MovieModel> finishedList = new ArrayList<>();
+    private final static String TAG = "DownloaderActivity";
 
     private RecyclerView downloadingView;
     private DownloadingMovieAdapter downloadingMovieAdapter;
@@ -29,15 +28,23 @@ public class DownloaderActivity extends AppCompatActivity {
     private RecyclerView finishedView;
     private FinishedMovieAdapter finishedMovieAdapter;
 
+    private MovieModel[] downloadingList;
+    private MovieModel[] finishedList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_downloader);
 
-        this.generateDefaultData();
         this.setupDownloadingList();
         this.setupFinishedList();
         this.setupBtns();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.refreshLists();
     }
 
     private void setupBtns() {
@@ -51,14 +58,8 @@ public class DownloaderActivity extends AppCompatActivity {
         });
     }
 
-    private void generateDefaultData() {
-        this.downloadingList.add(new MovieModel("Black Panther", "De king will now have de strength of de black pantha stripped eweii"));
-        this.downloadingList.add(new MovieModel("Thor: Ragnarok", "Marvel Studios"));
-        this.downloadingList.add(new MovieModel("Avengers: Infinity War", "Marvel Studios"));
-        this.downloadingList.add(new MovieModel("Harry Potter and the Deathly Hallows Part 2", "It All Ends"));
-    }
-
     private void setupDownloadingList() {
+        this.downloadingList = MovieRepository.getInstance().getDownloadingMovies();
         this.downloadingView = this.findViewById(R.id.ongoing_view);
         this.downloadingMovieAdapter = new DownloadingMovieAdapter(this.downloadingList);
         RecyclerView.LayoutManager recylerLayoutManager = new LinearLayoutManager(this);
@@ -68,12 +69,23 @@ public class DownloaderActivity extends AppCompatActivity {
     }
 
     private void setupFinishedList() {
+        this.finishedList = MovieRepository.getInstance().getFinishedMovies();
         this.finishedView = this.findViewById(R.id.finished_view);
-        this.finishedMovieAdapter = new FinishedMovieAdapter(this.downloadingList); //QQQQ replace with finishedList
+        this.finishedMovieAdapter = new FinishedMovieAdapter(this.finishedList);
         RecyclerView.LayoutManager recylerLayoutManager = new LinearLayoutManager(this);
         this.finishedView.setLayoutManager(recylerLayoutManager);
         this.finishedView.setItemAnimator(new DefaultItemAnimator());
         this.finishedView.setAdapter(this.finishedMovieAdapter);
-
     }
+
+    private void refreshLists() {
+        this.downloadingList = MovieRepository.getInstance().getDownloadingMovies();
+        this.downloadingMovieAdapter = new DownloadingMovieAdapter(this.downloadingList);
+        this.downloadingView.setAdapter(this.downloadingMovieAdapter);
+
+        this.finishedList = MovieRepository.getInstance().getFinishedMovies();
+        this.finishedMovieAdapter = new FinishedMovieAdapter(this.finishedList);
+        this.finishedView.setAdapter(this.finishedMovieAdapter);
+    }
+
 }

@@ -7,17 +7,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.neildg.mobidev_handsonrepo.R;
-import com.neildg.mobidev_handsonrepo.exam_downloader.views.DownloadingMovieAdapter;
-import com.neildg.mobidev_handsonrepo.exam_downloader.views.MovieModel;
+import com.neildg.mobidev_handsonrepo.exam_downloader.listeners.MovieDownloadPackage;
+import com.neildg.mobidev_handsonrepo.exam_downloader.models.MovieModel;
+import com.neildg.mobidev_handsonrepo.exam_downloader.models.MovieRepository;
 import com.neildg.mobidev_handsonrepo.exam_downloader.views.MovieViewAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class MovieListActivity extends AppCompatActivity {
+public class MovieListActivity extends AppCompatActivity implements MovieDownloadPackage.IDownloadListener {
     private final static String TAG = "MovieListActivity";
 
-    private ArrayList<MovieModel> moviesList = new ArrayList<>();
+    private MovieModel[] moviesList;
 
     private RecyclerView moviesView;
     private MovieViewAdapter movieAdapter;
@@ -27,23 +27,22 @@ public class MovieListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_list);
 
-        this.generateDefaultData();
-        this.setupDownloadingList();
+        this.setupMoviesList();
     }
 
-    private void generateDefaultData() {
-        this.moviesList.add(new MovieModel("Black Panther", "De king will now have de strength of de black pantha stripped eweii"));
-        this.moviesList.add(new MovieModel("Thor: Ragnarok", "Marvel Studios"));
-        this.moviesList.add(new MovieModel("Avengers: Infinity War", "Marvel Studios"));
-        this.moviesList.add(new MovieModel("Harry Potter and the Deathly Hallows Part 2", "It All Ends"));
-    }
-
-    private void setupDownloadingList() {
+    private void setupMoviesList() {
+        this.moviesList = MovieRepository.getInstance().getAvailableMovies();
         this.moviesView = this.findViewById(R.id.available_movies_view);
-        this.movieAdapter = new MovieViewAdapter(this.moviesList);
+        this.movieAdapter = new MovieViewAdapter(this.moviesList, this);
         RecyclerView.LayoutManager recylerLayoutManager = new LinearLayoutManager(this);
         this.moviesView.setLayoutManager(recylerLayoutManager);
         this.moviesView.setItemAnimator(new DefaultItemAnimator());
         this.moviesView.setAdapter(this.movieAdapter);
+    }
+
+    @Override
+    public void onDownloadInitiated(int index) {
+        MovieRepository.getInstance().markMovieForDownload(index);
+        this.finish();
     }
 }

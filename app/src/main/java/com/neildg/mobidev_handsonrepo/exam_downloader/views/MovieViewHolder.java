@@ -7,6 +7,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.neildg.mobidev_handsonrepo.R;
+import com.neildg.mobidev_handsonrepo.exam_downloader.listeners.MovieDownloadPackage;
+import com.neildg.mobidev_handsonrepo.exam_downloader.models.MovieRepository;
 
 /**
  * Created by delgallegon on 07/03/2018.
@@ -19,12 +21,18 @@ public class MovieViewHolder extends RecyclerView.ViewHolder {
     private TextView descText;
     private Button downloadBtn;
 
-    public MovieViewHolder(View view) {
+    public MovieViewHolder(View view, final MovieDownloadPackage.IDownloadListener downloadListener) {
         super(view);
 
         this.movieTitleTxt = view.findViewById(R.id.movie_title_txt);
         this.descText = view.findViewById(R.id.desc_txt);
         this.downloadBtn = view.findViewById(R.id.download_btn);
+        this.downloadBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                downloadListener.onDownloadInitiated(getAdapterPosition());
+            }
+        });
     }
 
     public TextView getMovieTitleTxt() {
@@ -34,4 +42,5 @@ public class MovieViewHolder extends RecyclerView.ViewHolder {
     public TextView getDescText() {
         return this.descText;
     }
+
 }

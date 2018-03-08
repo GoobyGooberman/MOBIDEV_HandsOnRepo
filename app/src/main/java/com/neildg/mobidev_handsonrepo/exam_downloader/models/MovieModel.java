@@ -1,4 +1,4 @@
-package com.neildg.mobidev_handsonrepo.exam_downloader.views;
+package com.neildg.mobidev_handsonrepo.exam_downloader.models;
 
 /**
  * Represents the movie model
