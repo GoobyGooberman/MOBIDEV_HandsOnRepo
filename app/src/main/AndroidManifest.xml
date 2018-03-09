@@ -73,7 +73,12 @@
             android:enabled="true"
             android:exported="false" />
 
-        <activity android:name=".activity_catchup.PersonListActivity"></activity>
+        <activity android:name=".activity_catchup.PersonListActivity" />
+
+        <service
+            android:name=".activity_musicplayer_workspace.MyMusicService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>
