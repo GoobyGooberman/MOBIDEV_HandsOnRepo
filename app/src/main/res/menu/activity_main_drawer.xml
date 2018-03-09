@@ -27,6 +27,11 @@
             android:icon="@drawable/ic_firebase_cloud"
             android:title="Firebase Demo" />
 
+        <item
+            android:id="@+id/nav_catchup"
+            android:icon="@drawable/ic_lifecycle"
+            android:title="Catch Up" />
+
     </group>
 
 </menu>
