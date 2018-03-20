@@ -72,7 +72,12 @@
         <activity android:name=".exam_locker.LockerActivity" />
         <activity android:name=".exam_locker.UnlockActivity" />
         <activity android:name=".exam_downloader.DownloaderActivity" />
-        <activity android:name=".exam_downloader.MovieListActivity"></activity>
+        <activity android:name=".exam_downloader.MovieListActivity" />
+
+        <service
+            android:name=".exam_downloader.services.FakeDownloadService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

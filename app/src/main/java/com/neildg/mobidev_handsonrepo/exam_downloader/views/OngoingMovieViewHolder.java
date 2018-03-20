@@ -35,8 +35,12 @@ public class OngoingMovieViewHolder extends RecyclerView.ViewHolder {
         return descText;
     }
 
-    public void setProgressBar(int currentValue, int maxValue) {
+    public void initializeBar(int currentValue, int maxValue) {
         this.progressBar.setMax(maxValue);
         this.progressBar.setProgress(currentValue);
+    }
+
+    public void updateProgress(int value) {
+        this.progressBar.setProgress(value);
     }
 }

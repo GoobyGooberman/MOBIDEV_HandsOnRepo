@@ -24,6 +24,8 @@ public class MovieRepository {
     private ArrayList<MovieModel> downloadingMovies = new ArrayList<>();
     private ArrayList<MovieModel> finishedMovies = new ArrayList<>();
 
+    private MovieModel queuedMovie = null; //the latest queued movie to download in the service.
+
     private void initialize() {
         this.availableMovies.add(new MovieModel("Black Panther", "De king will now have de strength of de black pantha stripped eweii"));
         this.availableMovies.add(new MovieModel("Thor: Ragnarok", "Marvel Studios"));
@@ -61,6 +63,14 @@ public class MovieRepository {
     public void markMovieForDownload(int index) {
         MovieModel movie = this.availableMovies.remove(index);
         this.downloadingMovies.add(movie);
+        this.queuedMovie = movie;
+    }
+
+    /*
+     * Returns the latest movie queued for download. This is called by a downloader service.
+     */
+    public MovieModel getLatestDownloadableMovie() {
+        return this.queuedMovie;
     }
 
     /*
@@ -71,6 +81,9 @@ public class MovieRepository {
         this.finishedMovies.add(movie);
     }
 
+    /*
+     * Resets this repository
+     */
     public void reset() {
         this.downloadingMovies.clear();
         this.finishedMovies.clear();

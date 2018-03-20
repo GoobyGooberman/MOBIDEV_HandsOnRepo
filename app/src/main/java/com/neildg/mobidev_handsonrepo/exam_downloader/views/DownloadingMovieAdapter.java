@@ -32,6 +32,7 @@ public class DownloadingMovieAdapter extends RecyclerView.Adapter<OngoingMovieVi
     @Override
     public void onBindViewHolder(OngoingMovieViewHolder holder, int position) {
         MovieModel movieModel = this.downloadingList[position];
+        movieModel.setViewPosition(position);
         holder.getMovieTitleTxt().setText(movieModel.getName());
         holder.getDescText().setText(movieModel.getDescription());
     }
