@@ -73,7 +73,8 @@
             android:enabled="true"
             android:exported="false" />
 
-        <activity android:name=".activity_catchup.PersonListActivity"></activity>
+        <activity android:name=".activity_catchup.PersonListActivity" />
+
     </application>
 
 </manifest>

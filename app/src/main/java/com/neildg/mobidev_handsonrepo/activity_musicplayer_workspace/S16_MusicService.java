@@ -94,4 +94,21 @@ public class S16_MusicService extends Service implements MediaPlayer.OnPreparedL
         Log.d(TAG, "Music player prepared!");
         mp.start();
     }
+
+    public void resume(){
+        if(this.musicPlayer != null) {
+            this.musicPlayer.start();
+        }
+    }
+
+    public void pause(){
+        if(this.musicPlayer != null) {
+            this.musicPlayer.pause();
+        }
+    }
+
+    public void seek(int newSec){
+        if(this.musicPlayer != null){}
+        this.musicPlayer.seekTo(newSec);
+    }
 }

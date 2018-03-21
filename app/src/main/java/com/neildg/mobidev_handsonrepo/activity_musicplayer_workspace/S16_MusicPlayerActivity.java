@@ -38,7 +38,11 @@ public class S16_MusicPlayerActivity extends AppCompatActivity implements IPlayS
     private S16_MusicService musicService;
     private Intent musicIntent;
 
-    private boolean musicBound = false;
+    private TextView titleView;
+    private TextView artistView;
+
+    private S16_MusicControllerUI musicControllerUI;
+    private S16_MusicPlayerControl musicController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,9 @@ public class S16_MusicPlayerActivity extends AppCompatActivity implements IPlayS
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(songAdapter);
 
+        this.titleView = this.findViewById(R.id.S16SongView);
+        this.artistView = this.findViewById(R.id.S16ArtistView);
+
         this.setupMusicService();
         this.startMusicService();
 
@@ -61,9 +68,9 @@ public class S16_MusicPlayerActivity extends AppCompatActivity implements IPlayS
 
     @Override
     protected void onDestroy() {
+        super.onDestroy();
         this.stopService(this.musicIntent);
         this.unbindService(this.musicConnection);
-        super.onDestroy();
     }
 
     private void requestPermissions() {
@@ -97,7 +104,6 @@ public class S16_MusicPlayerActivity extends AppCompatActivity implements IPlayS
             }
             while (musicCursor.moveToNext());
             this.songAdapter.notifyDataSetChanged();
-
         }
     }
 
@@ -119,53 +125,54 @@ public class S16_MusicPlayerActivity extends AppCompatActivity implements IPlayS
         }
     }
 
+    @Override
+    public void onPlayRequested(int songIndex) {
+        this.musicService.setSong(songIndex);
+        this.musicService.playSong();
+        this.setupMusicController();
+    }
+
+    @Override
+    public void onSongUpdated(int songIndex) {
+            //UPDATE UI
+        S16_SongModel song = this.songList.get(songIndex);
+        this.titleView.setText(song.getTitle());
+        this.artistView.setText(song.getArtist());
+    }
+
     private void setupMusicService() {
-        Log.d(TAG, "Setup music service!");
         this.musicConnection = new ServiceConnection() {
             @Override
-            public void onServiceConnected(ComponentName name, IBinder service) {
-                S16_MusicBinder musicBinder = (S16_MusicBinder) service;
+            public void onServiceConnected(ComponentName name, IBinder binder) {
+                //initialize the service, pass the songs
+                S16_MusicBinder musicBinder = (S16_MusicBinder) binder;
                 musicService = musicBinder.getMusicService();
                 musicService.setPlayList(songList, S16_MusicPlayerActivity.this);
-                musicBound = true;
-                Log.d(TAG, "Music service connected!");
+                Log.d(TAG, "Music service connected");
             }
 
             @Override
             public void onServiceDisconnected(ComponentName name) {
-                musicBound = false;
+
             }
         };
     }
 
     private void startMusicService() {
-        if(musicIntent == null) {
+        if(this.musicIntent == null) {
             this.musicIntent = new Intent(this, S16_MusicService.class);
             this.bindService(this.musicIntent, this.musicConnection, Context.BIND_AUTO_CREATE);
             this.startService(this.musicIntent);
-            Log.d(TAG, "Successfully started music service!");
         }
     }
 
-    @Override
-    public void onPlayRequested(int songIndex) {
-        if(this.musicService != null) {
-            Log.d(TAG, "Song index to be played: " +songIndex);
-            this.musicService.setSong(songIndex);
-            this.musicService.playSong();
-        }
-        else {
-            Log.d(TAG, "Music player not setup!");
-        }
+    private void setupMusicController() {
+        this.musicController = new S16_MusicPlayerControl(this, this.musicService);
 
-    }
-
-    @Override
-    public void onSongUpdated(int songIndex) {
-        S16_SongModel current = this.songList.get(songIndex);
-        TextView song = this.findViewById(R.id.S16SongView);
-        TextView artist = this.findViewById(R.id.S16ArtistView);
-        song.setText(current.getTitle());
-        artist.setText(current.getArtist());
+        this.musicControllerUI = new S16_MusicControllerUI(this);
+        this.musicControllerUI.setAnchorView(this.findViewById(R.id.S16MusicSlider));
+        this.musicControllerUI.setMediaPlayer(this.musicController);
+        this.musicControllerUI.setEnabled(true);
+        this.musicControllerUI.show(0); //0 means screen will be persistent
     }
 }

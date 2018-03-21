@@ -61,8 +61,8 @@ public class S14_MusicPlayerActivity extends AppCompatActivity implements IPlayS
     @Override
     protected void onStop() {
         super.onStop();
-        this.stopService(this.playIntent);
-        this.unbindService(this.musicConnection); // IMPORTANT!!!!
+        //this.stopService(this.playIntent);
+        //this.unbindService(this.musicConnection); // IMPORTANT!!!!
     }
 
     private void requestPermissions() {
@@ -139,6 +139,7 @@ public class S14_MusicPlayerActivity extends AppCompatActivity implements IPlayS
                 S14_MusicPlayerActivity.this.musicService = musicBinder.getMusicService();
                 S14_MusicPlayerActivity.this.musicService.setPlayList(songList);
                 S14_MusicPlayerActivity.this.musicBound = true;
+
                 Log.d(TAG, "Music service connected!");
             }
 

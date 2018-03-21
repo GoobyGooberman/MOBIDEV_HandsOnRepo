@@ -89,6 +89,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        FirebaseApp.initializeApp(this);
+
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -227,6 +229,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private void firebaseLogin(String email, String password) {
+        FirebaseApp.initializeApp(this);
         Task<AuthResult> authenResult = FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password);
         authenResult.addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
