@@ -4,19 +4,16 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.graphics.Movie;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.neildg.mobidev_handsonrepo.R;
-import com.neildg.mobidev_handsonrepo.activity_musicplayer.music_playback.MusicService;
 import com.neildg.mobidev_handsonrepo.exam_downloader.listeners.MovieDownloadPackage;
 import com.neildg.mobidev_handsonrepo.exam_downloader.models.MovieRepository;
 import com.neildg.mobidev_handsonrepo.exam_downloader.services.FakeDownloadBinder;
@@ -28,7 +25,7 @@ import com.neildg.mobidev_handsonrepo.exam_downloader.views.OngoingMovieViewHold
 
 import java.util.ArrayList;
 
-public class DownloaderActivity extends AppCompatActivity {
+public class DownloaderActivity extends AppCompatActivity implements MovieDownloadPackage.IFinishedListener {
     private final static String TAG = "DownloaderActivity";
 
     private RecyclerView downloadingView;
@@ -113,6 +110,9 @@ public class DownloaderActivity extends AppCompatActivity {
     }
 
     private void refreshLists() {
+        this.downloadingMovieAdapter = null;
+        this.finishedMovieAdapter = null;
+
         this.downloadingList = MovieRepository.getInstance().getDownloadingMovies();
         this.downloadingMovieAdapter = new DownloadingMovieAdapter(this.downloadingList);
         this.downloadingView.setAdapter(this.downloadingMovieAdapter);
@@ -132,7 +132,7 @@ public class DownloaderActivity extends AppCompatActivity {
                     FakeDownloadBinder binder = (FakeDownloadBinder) iBinder;
                     downloadService = binder.getService();
                     OngoingMovieViewHolder viewHolder = (OngoingMovieViewHolder) downloadingView.findViewHolderForAdapterPosition(movieModel.getViewPosition());
-                    downloadService.setMovieToDownload(movieModel, viewHolder);
+                    downloadService.setMovieToDownload(movieModel, viewHolder, DownloaderActivity.this, DownloaderActivity.this);
                 }
 
                 @Override
@@ -150,4 +150,9 @@ public class DownloaderActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onDownloadFinished(MovieModel movieModel, FakeDownloadService service) {
+        MovieRepository.getInstance().markMovieFinished(movieModel.getViewPosition());
+        this.refreshLists();
+    }
 }

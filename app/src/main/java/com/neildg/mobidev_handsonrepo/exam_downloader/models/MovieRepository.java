@@ -1,5 +1,7 @@
 package com.neildg.mobidev_handsonrepo.exam_downloader.models;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
@@ -24,6 +26,7 @@ public class MovieRepository {
     private ArrayList<MovieModel> downloadingMovies = new ArrayList<>();
     private ArrayList<MovieModel> finishedMovies = new ArrayList<>();
 
+    private boolean hasQueuedDownload = false;
     private MovieModel queuedMovie = null; //the latest queued movie to download in the service.
 
     private void initialize() {
@@ -64,13 +67,20 @@ public class MovieRepository {
         MovieModel movie = this.availableMovies.remove(index);
         this.downloadingMovies.add(movie);
         this.queuedMovie = movie;
+        this.hasQueuedDownload = true;
     }
 
     /*
-     * Returns the latest movie queued for download. This is called by a downloader service.
+     * Returns the latest movie queued for download. Returns null on succeeding calls unless another movie has been marked for download.
      */
     public MovieModel getLatestDownloadableMovie() {
-        return this.queuedMovie;
+        if(this.hasQueuedDownload) {
+            this.hasQueuedDownload = false;
+            return this.queuedMovie;
+        }
+        else {
+            return null;
+        }
     }
 
     /*
@@ -78,7 +88,9 @@ public class MovieRepository {
      */
     public void markMovieFinished(int index) {
         MovieModel movie = this.downloadingMovies.remove(index);
+        Log.d(TAG, "Movie marked as finished: " +movie.getName());
         this.finishedMovies.add(movie);
+
     }
 
     /*

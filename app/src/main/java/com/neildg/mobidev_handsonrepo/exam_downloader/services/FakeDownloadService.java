@@ -1,23 +1,19 @@
 package com.neildg.mobidev_handsonrepo.exam_downloader.services;
 
 import android.app.Activity;
+import android.app.Application;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.util.Log;
 
-import com.neildg.mobidev_handsonrepo.exam_downloader.DownloaderActivity;
+import com.neildg.mobidev_handsonrepo.exam_downloader.listeners.MovieDownloadPackage;
 import com.neildg.mobidev_handsonrepo.exam_downloader.models.MovieModel;
 import com.neildg.mobidev_handsonrepo.exam_downloader.views.OngoingMovieViewHolder;
-
-import static android.content.ContentValues.TAG;
 
 public class FakeDownloadService extends Service {
     private final static String TAG = "FakeDownloadService";
 
     private FakeDownloadBinder binder;
-    private MovieModel movieModel;
-    private OngoingMovieViewHolder movieViewHolder;
 
     public FakeDownloadService() {
 
@@ -47,24 +43,54 @@ public class FakeDownloadService extends Service {
         return super.onUnbind(intent);
     }
 
-    public void setMovieToDownload(MovieModel movieModel, final OngoingMovieViewHolder movieViewHolder) {
-        this.movieModel = movieModel;
-        this.movieViewHolder = movieViewHolder;
-
-        Log.d(TAG, "SETTING: Fake download service started for the movie: " +this.movieModel.getName());
-        Log.d(TAG, "SETTING: Movie model position: " +movieModel.getViewPosition());
-
-        try {
-            movieViewHolder.initializeBar(0, 100);
-
-            for(int currentProgress = 0; currentProgress <= 100; currentProgress+=5) {
-                Thread.sleep(50);
+    public void setMovieToDownload(final MovieModel movieModel, final OngoingMovieViewHolder movieViewHolder, final MovieDownloadPackage.IFinishedListener finishedListener, final Activity activity) {
+        ThreadAction threadAction = new ThreadAction() {
+            @Override
+            public void onProgress(int currentProgress) {
                 movieViewHolder.updateProgress(currentProgress);
-            }
+                if(currentProgress >= 100 && finishedListener != null) {
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            finishedListener.onDownloadFinished(movieModel, FakeDownloadService.this);
+                        }
+                    });
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+                }
+            }
+        };
+
+        movieViewHolder.initializeBar(0, 100);
+        BackgroundThread backgroundThread = new BackgroundThread(threadAction);
+        backgroundThread.start();
+    }
+
+    private interface ThreadAction {
+        void onProgress(int currentProgress);
+    }
+
+    /*
+     * Background thread that is used for simulating a fake download through thread.sleep()
+     */
+    private class BackgroundThread extends Thread {
+        private ThreadAction threadAction;
+
+        public BackgroundThread(ThreadAction threadAction) {
+            this.threadAction = threadAction;
         }
 
+        @Override
+        public void run() {
+            try {
+                int currentProgress = 0;
+                for(currentProgress = 0; currentProgress <= 100; currentProgress+=5) {
+                    Thread.sleep(250);
+                    this.threadAction.onProgress(currentProgress);
+                }
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
