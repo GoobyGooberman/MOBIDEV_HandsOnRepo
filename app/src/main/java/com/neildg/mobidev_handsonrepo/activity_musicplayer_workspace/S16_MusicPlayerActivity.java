@@ -22,7 +22,6 @@ import android.widget.TextView;
 
 import com.neildg.mobidev_handsonrepo.R;
 import com.neildg.mobidev_handsonrepo.activity_musicplayer.IPlaySongListener;
-import com.neildg.mobidev_handsonrepo.activity_musicplayer.SongModel;
 
 import java.util.ArrayList;
 
@@ -36,11 +35,14 @@ public class S16_MusicPlayerActivity extends AppCompatActivity implements IPlayS
     private S16_SongAdapter songAdapter;
 
     private ServiceConnection musicConnection;
-    private MyMusicService musicService;
+    private S16_MusicService musicService;
     private Intent musicIntent;
 
     private TextView titleView;
     private TextView artistView;
+
+    private S16_MusicControllerUI musicControllerUI;
+    private S16_MusicPlayerControl musicController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +129,7 @@ public class S16_MusicPlayerActivity extends AppCompatActivity implements IPlayS
     public void onPlayRequested(int songIndex) {
         this.musicService.setSong(songIndex);
         this.musicService.playSong();
+        this.setupMusicController();
     }
 
     @Override
@@ -142,7 +145,7 @@ public class S16_MusicPlayerActivity extends AppCompatActivity implements IPlayS
             @Override
             public void onServiceConnected(ComponentName name, IBinder binder) {
                 //initialize the service, pass the songs
-                MyMusicBinder musicBinder = (MyMusicBinder) binder;
+                S16_MusicBinder musicBinder = (S16_MusicBinder) binder;
                 musicService = musicBinder.getMusicService();
                 musicService.setPlayList(songList, S16_MusicPlayerActivity.this);
                 Log.d(TAG, "Music service connected");
@@ -157,9 +160,19 @@ public class S16_MusicPlayerActivity extends AppCompatActivity implements IPlayS
 
     private void startMusicService() {
         if(this.musicIntent == null) {
-            this.musicIntent = new Intent(this, MyMusicService.class);
+            this.musicIntent = new Intent(this, S16_MusicService.class);
             this.bindService(this.musicIntent, this.musicConnection, Context.BIND_AUTO_CREATE);
             this.startService(this.musicIntent);
         }
+    }
+
+    private void setupMusicController() {
+        this.musicController = new S16_MusicPlayerControl(this, this.musicService);
+
+        this.musicControllerUI = new S16_MusicControllerUI(this);
+        this.musicControllerUI.setAnchorView(this.findViewById(R.id.S16MusicSlider));
+        this.musicControllerUI.setMediaPlayer(this.musicController);
+        this.musicControllerUI.setEnabled(true);
+        this.musicControllerUI.show(0); //0 means screen will be persistent
     }
 }
