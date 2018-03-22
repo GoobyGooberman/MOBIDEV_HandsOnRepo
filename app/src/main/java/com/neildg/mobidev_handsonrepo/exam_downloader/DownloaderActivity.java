@@ -1,5 +1,6 @@
 package com.neildg.mobidev_handsonrepo.exam_downloader;
 
+import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -10,12 +11,14 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.neildg.mobidev_handsonrepo.R;
 import com.neildg.mobidev_handsonrepo.exam_downloader.listeners.MovieDownloadPackage;
 import com.neildg.mobidev_handsonrepo.exam_downloader.models.MovieRepository;
+import com.neildg.mobidev_handsonrepo.exam_downloader.services.DownloadFinishedNotification;
 import com.neildg.mobidev_handsonrepo.exam_downloader.services.FakeDownloadBinder;
 import com.neildg.mobidev_handsonrepo.exam_downloader.services.FakeDownloadService;
 import com.neildg.mobidev_handsonrepo.exam_downloader.views.DownloadingMovieAdapter;
@@ -37,10 +40,11 @@ public class DownloaderActivity extends AppCompatActivity implements MovieDownlo
     private MovieModel[] downloadingList;
     private MovieModel[] finishedList;
 
-    private FakeDownloadService downloadService;
-
+    private ArrayList<FakeDownloadService> downloadServices = new ArrayList<>();
     private ArrayList<ServiceConnection> downloadConnections = new ArrayList<>();
     private ArrayList<Intent> downloadIntents = new ArrayList<>();
+
+    private int notifCounter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +91,8 @@ public class DownloaderActivity extends AppCompatActivity implements MovieDownlo
 
         this.downloadConnections.clear();
         this.downloadIntents.clear();
+
+        Log.d(TAG, "Services destroyed!");
     }
 
     private void setupDownloadingList() {
@@ -130,14 +136,13 @@ public class DownloaderActivity extends AppCompatActivity implements MovieDownlo
                 @Override
                 public void onServiceConnected(ComponentName name, IBinder iBinder) {
                     FakeDownloadBinder binder = (FakeDownloadBinder) iBinder;
-                    downloadService = binder.getService();
+                    FakeDownloadService downloadService = binder.getService();
                     OngoingMovieViewHolder viewHolder = (OngoingMovieViewHolder) downloadingView.findViewHolderForAdapterPosition(movieModel.getViewPosition());
                     downloadService.setMovieToDownload(movieModel, viewHolder, DownloaderActivity.this, DownloaderActivity.this);
                 }
 
                 @Override
                 public void onServiceDisconnected(ComponentName name) {
-                    downloadService = null;
                 }
             };
 
@@ -154,5 +159,13 @@ public class DownloaderActivity extends AppCompatActivity implements MovieDownlo
     public void onDownloadFinished(MovieModel movieModel, FakeDownloadService service) {
         MovieRepository.getInstance().markMovieFinished(movieModel.getViewPosition());
         this.refreshLists();
+
+        Intent i = new Intent(this, MovieViewActivity.class);
+        i.putExtra(MovieViewActivity.MOVIE_TITLE_KEY, movieModel.getName());
+        PendingIntent pendInt = PendingIntent.getActivity(this, 0,
+                i, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        DownloadFinishedNotification.notify(this, movieModel.getName(), this.notifCounter, pendInt);
+        this.notifCounter++;
     }
 }
