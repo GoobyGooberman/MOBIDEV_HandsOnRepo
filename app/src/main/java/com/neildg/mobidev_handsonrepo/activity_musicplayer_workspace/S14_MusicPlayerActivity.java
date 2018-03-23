@@ -19,6 +19,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.neildg.mobidev_handsonrepo.R;
@@ -37,6 +38,8 @@ public class S14_MusicPlayerActivity extends AppCompatActivity implements IPlayS
     private ArrayList<S14_SongModel> songList = new ArrayList<>();
     private RecyclerView recyclerView;
     private S14_MusicAdapter musicAdapter;
+    private S14_MusicControllerUI musicController;
+    private S14_MusicPlayerControl playerControl;
 
     private ServiceConnection musicConnection;
     private S14_MusicService musicService;
@@ -166,10 +169,28 @@ public class S14_MusicPlayerActivity extends AppCompatActivity implements IPlayS
             Log.d(TAG, "Music song requested: " +songIndex);
             this.musicService.setSong(songIndex);
             this.musicService.playSong();
+            this.setUpMusicController();
         }
         else {
             Log.d(TAG, "Music service is not properly setup!");
         }
+    }
+
+    private void setUpMusicController(){
+        if(this.playerControl != null) {
+            this.musicController.markForCleaning(true);
+            this.musicController.hide();
+            this.musicController = null;
+            this.playerControl = null;
+        }
+
+        this.playerControl = new S14_MusicPlayerControl(this, this.musicService);
+        this.musicController = new S14_MusicControllerUI(this);
+
+        this.musicController.setMediaPlayer(this.playerControl);
+        this.musicController.setAnchorView(this.findViewById(R.id.music_control_layout));
+        this.musicController.setEnabled(true);
+        this.musicController.show(0); //0 means screen will be persistent
     }
 
     @Override
