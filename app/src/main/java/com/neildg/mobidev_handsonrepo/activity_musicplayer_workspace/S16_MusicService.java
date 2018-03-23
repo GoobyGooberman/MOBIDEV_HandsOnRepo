@@ -95,6 +95,20 @@ public class S16_MusicService extends Service implements MediaPlayer.OnPreparedL
         mp.start();
     }
 
+    public int getCurrentSongPosition(){
+        if (this.musicPlayer != null){
+            return this.musicPlayer.getCurrentPosition();
+        }
+        return 0;
+    }
+
+    public int getCurrentSongDuration(){
+        if (this.musicPlayer != null){
+            return this.musicPlayer.getDuration();
+        }
+        return 0;
+    }
+
     public void resume(){
         if(this.musicPlayer != null) {
             this.musicPlayer.start();
@@ -108,7 +122,15 @@ public class S16_MusicService extends Service implements MediaPlayer.OnPreparedL
     }
 
     public void seek(int newSec){
-        if(this.musicPlayer != null){}
-        this.musicPlayer.seekTo(newSec);
+        if(this.musicPlayer != null) {
+            this.musicPlayer.seekTo(newSec);
+        }
+    }
+
+    public boolean isPlaying(){
+        if(this.musicPlayer != null) {
+            return this.musicPlayer.isPlaying();
+        }
+        return false;
     }
 }

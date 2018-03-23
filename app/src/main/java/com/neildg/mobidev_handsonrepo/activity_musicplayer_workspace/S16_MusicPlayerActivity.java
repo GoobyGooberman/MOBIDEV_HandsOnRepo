@@ -1,6 +1,7 @@
 package com.neildg.mobidev_handsonrepo.activity_musicplayer_workspace;
 
 import android.Manifest;
+import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -18,6 +19,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.neildg.mobidev_handsonrepo.R;
@@ -43,6 +46,7 @@ public class S16_MusicPlayerActivity extends AppCompatActivity implements IPlayS
 
     private S16_MusicControllerUI musicControllerUI;
     private S16_MusicPlayerControl musicController;
+    private boolean musicBound = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +68,21 @@ public class S16_MusicPlayerActivity extends AppCompatActivity implements IPlayS
         this.setupMusicService();
         this.startMusicService();
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.music_player_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.item_stop) {
+            this.finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -130,6 +149,7 @@ public class S16_MusicPlayerActivity extends AppCompatActivity implements IPlayS
         this.musicService.setSong(songIndex);
         this.musicService.playSong();
         this.setupMusicController();
+        this.startNotification(songIndex);
     }
 
     @Override
@@ -149,6 +169,7 @@ public class S16_MusicPlayerActivity extends AppCompatActivity implements IPlayS
                 musicService = musicBinder.getMusicService();
                 musicService.setPlayList(songList, S16_MusicPlayerActivity.this);
                 Log.d(TAG, "Music service connected");
+                musicBound = true;
             }
 
             @Override
@@ -167,6 +188,13 @@ public class S16_MusicPlayerActivity extends AppCompatActivity implements IPlayS
     }
 
     private void setupMusicController() {
+        if(this.musicControllerUI != null){
+            this.musicControllerUI.markforCleaning(true);
+            this.musicControllerUI.hide();
+            this.musicControllerUI = null;
+            this.musicController = null;
+        }
+
         this.musicController = new S16_MusicPlayerControl(this, this.musicService);
 
         this.musicControllerUI = new S16_MusicControllerUI(this);
@@ -174,5 +202,23 @@ public class S16_MusicPlayerActivity extends AppCompatActivity implements IPlayS
         this.musicControllerUI.setMediaPlayer(this.musicController);
         this.musicControllerUI.setEnabled(true);
         this.musicControllerUI.show(0); //0 means screen will be persistent
+
+    }
+
+    private void startNotification(int songIndex)
+    {
+        S16_SongModel sm = this.songList.get(songIndex);
+        String songName = sm.getTitle();
+        String songArtist = sm.getArtist();
+        Intent notIntent = new Intent(this,S16_MusicPlayerActivity.class);
+        notIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendInt = PendingIntent.getActivity(this,0,notIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+        S16_MusicNotification playNotif = new S16_MusicNotification();
+        this.musicService.startForeground(1,playNotif.buildnotification(this,songName,songArtist,pendInt));
+    }
+
+    public boolean isMusicBound(){
+        return this.musicBound;
     }
 }

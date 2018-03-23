@@ -33,21 +33,32 @@ public class S16_MusicPlayerControl implements MediaController.MediaPlayerContro
 
     @Override
     public int getDuration() {
+        if(this.musicService != null && this.activity.isMusicBound() && this.musicService.isPlaying()){
+            return this.musicService.getCurrentSongDuration();
+        }
         return 0;
     }
 
     @Override
     public int getCurrentPosition() {
+        if(this.musicService != null && this.activity.isMusicBound() && this.musicService.isPlaying()){
+            return this.musicService.getCurrentSongPosition();
+        }
         return 0;
     }
 
     @Override
     public void seekTo(int pos) {
-
+        if(this.musicService != null){
+            this.musicService.seek(pos);
+        }
     }
 
     @Override
     public boolean isPlaying() {
+        if(this.musicService != null){
+            return this.musicService.isPlaying();
+        }
         return false;
     }
 
