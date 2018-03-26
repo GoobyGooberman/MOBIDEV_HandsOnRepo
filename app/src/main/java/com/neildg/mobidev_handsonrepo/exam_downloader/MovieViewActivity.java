@@ -19,8 +19,6 @@ public class MovieViewActivity extends AppCompatActivity {
     }
 
     private void setMovieTitle() {
-        Intent intent = this.getIntent();
-        TextView movieTextView = this.findViewById(R.id.movie_title_txt);
-        movieTextView.setText(intent.getStringExtra(MOVIE_TITLE_KEY));
+        //sets the corresponding movie title using an intent and using the specified MOVIE_TITLE_KEY
     }
 }

@@ -1,6 +1,5 @@
 package com.neildg.mobidev_handsonrepo.exam_downloader;
 
-import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -16,9 +15,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.neildg.mobidev_handsonrepo.R;
-import com.neildg.mobidev_handsonrepo.exam_downloader.listeners.MovieDownloadPackage;
+import com.neildg.mobidev_handsonrepo.exam_downloader.listeners.IFinishedListener;
 import com.neildg.mobidev_handsonrepo.exam_downloader.models.MovieRepository;
-import com.neildg.mobidev_handsonrepo.exam_downloader.services.DownloadFinishedNotification;
 import com.neildg.mobidev_handsonrepo.exam_downloader.services.FakeDownloadBinder;
 import com.neildg.mobidev_handsonrepo.exam_downloader.services.FakeDownloadService;
 import com.neildg.mobidev_handsonrepo.exam_downloader.views.DownloadingMovieAdapter;
@@ -28,7 +26,7 @@ import com.neildg.mobidev_handsonrepo.exam_downloader.views.OngoingMovieViewHold
 
 import java.util.ArrayList;
 
-public class DownloaderActivity extends AppCompatActivity implements MovieDownloadPackage.IFinishedListener {
+public class DownloaderActivity extends AppCompatActivity implements IFinishedListener {
     private final static String TAG = "DownloaderActivity";
 
     private RecyclerView downloadingView;
@@ -39,12 +37,6 @@ public class DownloaderActivity extends AppCompatActivity implements MovieDownlo
 
     private MovieModel[] downloadingList;
     private MovieModel[] finishedList;
-
-    private ArrayList<FakeDownloadService> downloadServices = new ArrayList<>();
-    private ArrayList<ServiceConnection> downloadConnections = new ArrayList<>();
-    private ArrayList<Intent> downloadIntents = new ArrayList<>();
-
-    private int notifCounter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,91 +73,34 @@ public class DownloaderActivity extends AppCompatActivity implements MovieDownlo
     }
 
     private void destroyService() {
-        for(int i = 0; i < this.downloadIntents.size(); i++) {
-            this.stopService(this.downloadIntents.get(i));
-        }
-        for(int i = 0; i < this.downloadConnections.size(); i++) {
-            this.unbindService(this.downloadConnections.get(i)); //IMPORTANT! DO NOT FORGET
-        }
-
-
-        this.downloadConnections.clear();
-        this.downloadIntents.clear();
-
+        //fill this up with method calls related to destroying and unbinding of services
         Log.d(TAG, "Services destroyed!");
     }
 
     private void setupDownloadingList() {
-        this.downloadingList = MovieRepository.getInstance().getDownloadingMovies();
-        this.downloadingView = this.findViewById(R.id.ongoing_view);
-        this.downloadingMovieAdapter = new DownloadingMovieAdapter(this.downloadingList);
-        RecyclerView.LayoutManager recylerLayoutManager = new LinearLayoutManager(this);
-        this.downloadingView.setLayoutManager(recylerLayoutManager);
-        this.downloadingView.setItemAnimator(new DefaultItemAnimator());
-        this.downloadingView.setAdapter(this.downloadingMovieAdapter);
+       //setup the downloading recycler view
     }
 
     private void setupFinishedList() {
-        this.finishedList = MovieRepository.getInstance().getFinishedMovies();
-        this.finishedView = this.findViewById(R.id.finished_view);
-        this.finishedMovieAdapter = new FinishedMovieAdapter(this.finishedList);
-        RecyclerView.LayoutManager recylerLayoutManager = new LinearLayoutManager(this);
-        this.finishedView.setLayoutManager(recylerLayoutManager);
-        this.finishedView.setItemAnimator(new DefaultItemAnimator());
-        this.finishedView.setAdapter(this.finishedMovieAdapter);
+        //setup the finished recycler view
     }
 
     private void refreshLists() {
         this.downloadingMovieAdapter = null;
         this.finishedMovieAdapter = null;
 
-        this.downloadingList = MovieRepository.getInstance().getDownloadingMovies();
-        this.downloadingMovieAdapter = new DownloadingMovieAdapter(this.downloadingList);
-        this.downloadingView.setAdapter(this.downloadingMovieAdapter);
-
-        this.finishedList = MovieRepository.getInstance().getFinishedMovies();
-        this.finishedMovieAdapter = new FinishedMovieAdapter(this.finishedList);
-        this.finishedView.setAdapter(this.finishedMovieAdapter);
+        //re-initializes your downloading and finished adapter, with the updated list of movies.
     }
 
     private void handleDownloads() {
         final MovieModel movieModel = MovieRepository.getInstance().getLatestDownloadableMovie();
         if(movieModel != null) {
-            //start a new download service
-            ServiceConnection downloadConnection = new ServiceConnection() {
-                @Override
-                public void onServiceConnected(ComponentName name, IBinder iBinder) {
-                    FakeDownloadBinder binder = (FakeDownloadBinder) iBinder;
-                    FakeDownloadService downloadService = binder.getService();
-                    OngoingMovieViewHolder viewHolder = (OngoingMovieViewHolder) downloadingView.findViewHolderForAdapterPosition(movieModel.getViewPosition());
-                    downloadService.setMovieToDownload(movieModel, viewHolder, DownloaderActivity.this, DownloaderActivity.this);
-                }
-
-                @Override
-                public void onServiceDisconnected(ComponentName name) {
-                }
-            };
-
-            this.downloadConnections.add(downloadConnection);
-
-            Intent downloadIntent = new Intent(this, FakeDownloadService.class);
-            this.downloadIntents.add(downloadIntent);
-            this.bindService(downloadIntent, downloadConnection, Context.BIND_AUTO_CREATE);
-            this.startService(downloadIntent);
+           //creates a service connection, starts and binds the service intent. automatically starts the service.
         }
     }
 
     @Override
     public void onDownloadFinished(MovieModel movieModel, FakeDownloadService service) {
-        MovieRepository.getInstance().markMovieFinished(movieModel.getViewPosition());
-        this.refreshLists();
-
-        Intent i = new Intent(this, MovieViewActivity.class);
-        i.putExtra(MovieViewActivity.MOVIE_TITLE_KEY, movieModel.getName());
-        PendingIntent pendInt = PendingIntent.getActivity(this, 0,
-                i, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        DownloadFinishedNotification.notify(this, movieModel.getName(), this.notifCounter, pendInt);
-        this.notifCounter++;
+        //marks a given movie as "finished", updates your UI, and displays a notification to the user.
     }
 }

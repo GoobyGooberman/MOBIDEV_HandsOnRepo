@@ -6,12 +6,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.neildg.mobidev_handsonrepo.R;
+import com.neildg.mobidev_handsonrepo.exam_downloader.listeners.IOngoingMovieViewHolder;
 
 /**
  * Created by delgallegon on 05/03/2018.
  */
 
-public class OngoingMovieViewHolder extends RecyclerView.ViewHolder {
+public class OngoingMovieViewHolder extends RecyclerView.ViewHolder implements IOngoingMovieViewHolder {
     private final static String TAG = "OngoingMovieViewHolder";
 
     private TextView movieTitleTxt;

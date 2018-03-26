@@ -6,10 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.neildg.mobidev_handsonrepo.R;
-import com.neildg.mobidev_handsonrepo.exam_downloader.listeners.MovieDownloadPackage;
+import com.neildg.mobidev_handsonrepo.exam_downloader.listeners.IDownloadListener;
 import com.neildg.mobidev_handsonrepo.exam_downloader.models.MovieModel;
-
-import java.util.List;
 
 /**
  * Created by delgallegon on 07/03/2018.
@@ -19,9 +17,9 @@ public class MovieViewAdapter extends RecyclerView.Adapter<MovieViewHolder> {
     private final static String TAG = "MovieViewAdapter";
 
     private MovieModel[] moviesList;
-    private MovieDownloadPackage.IDownloadListener downloadListener;
+    private IDownloadListener downloadListener;
 
-    public MovieViewAdapter(MovieModel[] moviesList, MovieDownloadPackage.IDownloadListener downloadListener) {
+    public MovieViewAdapter(MovieModel[] moviesList, IDownloadListener downloadListener) {
         this.moviesList = moviesList;
         this.downloadListener = downloadListener;
     }

@@ -7,14 +7,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.neildg.mobidev_handsonrepo.R;
-import com.neildg.mobidev_handsonrepo.exam_downloader.listeners.MovieDownloadPackage;
+import com.neildg.mobidev_handsonrepo.exam_downloader.listeners.IDownloadListener;
 import com.neildg.mobidev_handsonrepo.exam_downloader.models.MovieModel;
 import com.neildg.mobidev_handsonrepo.exam_downloader.models.MovieRepository;
 import com.neildg.mobidev_handsonrepo.exam_downloader.views.MovieViewAdapter;
 
-import java.util.ArrayList;
-
-public class MovieListActivity extends AppCompatActivity implements MovieDownloadPackage.IDownloadListener {
+public class MovieListActivity extends AppCompatActivity implements IDownloadListener {
     private final static String TAG = "MovieListActivity";
 
     private MovieModel[] moviesList;

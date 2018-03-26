@@ -1,12 +1,11 @@
 package com.neildg.mobidev_handsonrepo.exam_downloader.services;
 
 import android.app.Activity;
-import android.app.Application;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
-import com.neildg.mobidev_handsonrepo.exam_downloader.listeners.MovieDownloadPackage;
+import com.neildg.mobidev_handsonrepo.exam_downloader.listeners.IFinishedListener;
 import com.neildg.mobidev_handsonrepo.exam_downloader.models.MovieModel;
 import com.neildg.mobidev_handsonrepo.exam_downloader.views.OngoingMovieViewHolder;
 
@@ -43,7 +42,7 @@ public class FakeDownloadService extends Service {
         return super.onUnbind(intent);
     }
 
-    public void setMovieToDownload(final MovieModel movieModel, final OngoingMovieViewHolder movieViewHolder, final MovieDownloadPackage.IFinishedListener finishedListener, final Activity activity) {
+    public void setMovieToDownload(final MovieModel movieModel, final OngoingMovieViewHolder movieViewHolder, final IFinishedListener finishedListener, final Activity activity) {
         ThreadAction threadAction = new ThreadAction() {
             @Override
             public void onProgress(final int currentProgress) {
