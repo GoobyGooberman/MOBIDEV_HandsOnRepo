@@ -5,8 +5,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.android_challenge.fake_downloader.R;
 import com.android_challenge.fake_downloader.exam_downloader.listeners.IOngoingMovieViewHolder;
-import com.neildg.mobidev_handsonrepo.R;
 
 /**
  * Created by delgallegon on 05/03/2018.

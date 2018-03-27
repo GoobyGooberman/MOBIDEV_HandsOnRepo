@@ -6,6 +6,8 @@ package com.android_challenge.fake_downloader.exam_downloader.listeners;
  */
 
 public interface IOngoingMovieViewHolder {
+    //initializes your progress bar
+    void initializeBar(int currentValue, int maxValue);
     //updates the progress bar value
     void updateProgress(int value);
 }

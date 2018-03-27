@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.IBinder;
 
 import com.android_challenge.fake_downloader.exam_downloader.listeners.IFinishedListener;
+import com.android_challenge.fake_downloader.exam_downloader.listeners.IOngoingMovieViewHolder;
 import com.android_challenge.fake_downloader.exam_downloader.models.MovieModel;
 import com.android_challenge.fake_downloader.exam_downloader.views.OngoingMovieViewHolder;
 
@@ -42,7 +43,7 @@ public class FakeDownloadService extends Service {
         return super.onUnbind(intent);
     }
 
-    public void setMovieToDownload(final MovieModel movieModel, final OngoingMovieViewHolder movieViewHolder, final IFinishedListener finishedListener, final Activity activity) {
+    public void setMovieToDownload(final MovieModel movieModel, final IOngoingMovieViewHolder movieViewHolder, final IFinishedListener finishedListener, final Activity activity) {
         ThreadAction threadAction = new ThreadAction() {
             @Override
             public void onProgress(final int currentProgress) {
@@ -81,6 +82,7 @@ public class FakeDownloadService extends Service {
         @Override
         public void run() {
             try {
+                //modify the increment of currentProgress to increase download speed.
                 int currentProgress = 0;
                 for(currentProgress = 0; currentProgress <= 100; currentProgress+=5) {
                     Thread.sleep(250);
