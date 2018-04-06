@@ -32,6 +32,11 @@
             android:icon="@drawable/ic_lifecycle"
             android:title="Catch Up" />
 
+        <item
+            android:id="@+id/nav_thread"
+            android:icon="@drawable/ic_lifecycle"
+            android:title="Threading" />
+
     </group>
 
 </menu>

@@ -75,6 +75,7 @@
             android:exported="false" />
 
         <activity android:name=".activity_catchup.PersonListActivity" />
+        <activity android:name=".activity_thread.ThreadActivity"></activity>
     </application>
 
 </manifest>

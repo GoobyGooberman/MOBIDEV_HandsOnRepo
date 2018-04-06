@@ -20,6 +20,7 @@ import com.neildg.mobidev_handsonrepo.activity_lifecycle.LifecycleActivity;
 import com.neildg.mobidev_handsonrepo.activity_lifecycle.LifecycleActivityWorkspace;
 import com.neildg.mobidev_handsonrepo.activity_musicplayer.ChooseMusicActivity;
 import com.neildg.mobidev_handsonrepo.activity_restaurant.ChooseRestoWorkActivity;
+import com.neildg.mobidev_handsonrepo.activity_thread.ThreadActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -115,6 +116,11 @@ public class MainActivity extends AppCompatActivity
 
         if(id == R.id.nav_catchup) {
             Intent i = new Intent(MainActivity.this, PersonListActivity.class);
+            this.startActivity(i);
+        }
+
+        if(id == R.id.nav_thread) {
+            Intent i = new Intent(MainActivity.this, ThreadActivity.class);
             this.startActivity(i);
         }
 
