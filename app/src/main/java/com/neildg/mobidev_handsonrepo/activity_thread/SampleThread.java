@@ -10,15 +10,18 @@ public class SampleThread extends Thread {
     private final static String TAG = "SampleThread";
 
     private int threadID;
+    private ThreadActivity threadActivity;
 
-    public SampleThread(int ID) {
+    public SampleThread(int ID, ThreadActivity threadActivity) {
         this.threadID = ID;
+        this.threadActivity = threadActivity;
     }
 
     @Override
     public void run() {
        //your thread implements your logic here
         Log.d(TAG, "Thread " +threadID+ " has started");
+        this.threadActivity.logMessage("Thread " +threadID+ " has started");
 
         //pause for 1 second
         try {
@@ -28,5 +31,7 @@ public class SampleThread extends Thread {
         }
 
         Log.d(TAG, "Thread " +threadID+ " has finished");
+        this.threadActivity.logMessage("Thread " +threadID+ " has finished");
+        this.threadActivity.notify("Thread " +threadID+ " has finished");
     }
 }

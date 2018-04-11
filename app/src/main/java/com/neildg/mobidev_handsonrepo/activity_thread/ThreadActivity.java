@@ -16,6 +16,7 @@ public class ThreadActivity extends AppCompatActivity {
     private TextView msgTemplate;
 
     private SampleThread[] threadList = new SampleThread[10];
+    private int notifNumber = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,24 +30,38 @@ public class ThreadActivity extends AppCompatActivity {
     private void setupLogMessage() {
         this.msgTemplate = this.findViewById(R.id.thread_message);
         this.consoleContainer = this.findViewById(R.id.console_container);
-
-        for(int i = 0; i < 5; i++) {
-            this.logMessage("Message test!");
-        }
     }
 
-    private void logMessage(String message) {
-        TextView messageView = new TextView(this);
-        messageView.setText(message);
-        this.consoleContainer.addView(messageView);
+    public void logMessage(final String message) {
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView messageView = new TextView(ThreadActivity.this);
+                messageView.setText(message);
+                ThreadActivity.this.consoleContainer.addView(messageView);
+            }
+        });
+
+    }
+
+    public void notify(final String message) {
+        DownloadNotification.notify(ThreadActivity.this, message, notifNumber);
+        notifNumber++;
+        /*this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                DownloadNotification.notify(ThreadActivity.this, message, notifNumber);
+                notifNumber++;
+            }
+        });*/
     }
 
     private void startThreading() {
         for(int i = 0; i < this.threadList.length; i++) {
-            this.threadList[i] = new SampleThread(i);
+            this.threadList[i] = new SampleThread(i, this);
             this.threadList[i].start();
         }
 
-        Log.d(TAG, "Finished threading demo.");
+        this.logMessage("Finished threading demo.");
     }
 }

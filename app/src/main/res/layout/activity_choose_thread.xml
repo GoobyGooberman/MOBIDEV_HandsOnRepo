@@ -35,15 +35,6 @@
         app:layout_constraintTop_toBottomOf="@+id/textView9">
 
         <Button
-            android:id="@+id/work_output_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Working Output"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="73dp" />
-
-        <Button
             android:id="@+id/mobidev_s14_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

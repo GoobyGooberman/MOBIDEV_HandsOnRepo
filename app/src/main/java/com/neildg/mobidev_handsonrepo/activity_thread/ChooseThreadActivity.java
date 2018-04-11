@@ -22,15 +22,6 @@ public class ChooseThreadActivity extends AppCompatActivity {
     }
 
     private void setupUI() {
-        Button workOutputBtn = this.findViewById(R.id.work_output_btn);
-        workOutputBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(ChooseThreadActivity.this, ThreadActivity.class);
-                startActivity(i);
-            }
-        });
-
         Button mobidevBtn = this.findViewById(R.id.mobidev_s14_btn);
         mobidevBtn.setOnClickListener(new View.OnClickListener() {
             @Override
