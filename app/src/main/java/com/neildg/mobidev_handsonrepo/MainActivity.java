@@ -20,6 +20,7 @@ import com.neildg.mobidev_handsonrepo.activity_lifecycle.LifecycleActivity;
 import com.neildg.mobidev_handsonrepo.activity_lifecycle.LifecycleActivityWorkspace;
 import com.neildg.mobidev_handsonrepo.activity_musicplayer.ChooseMusicActivity;
 import com.neildg.mobidev_handsonrepo.activity_restaurant.ChooseRestoWorkActivity;
+import com.neildg.mobidev_handsonrepo.activity_thread.ChooseThreadActivity;
 import com.neildg.mobidev_handsonrepo.activity_thread.ThreadActivity;
 
 public class MainActivity extends AppCompatActivity
@@ -120,7 +121,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         if(id == R.id.nav_thread) {
-            Intent i = new Intent(MainActivity.this, ThreadActivity.class);
+            Intent i = new Intent(MainActivity.this, ChooseThreadActivity.class);
             this.startActivity(i);
         }
 
